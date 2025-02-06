@@ -1,28 +1,18 @@
 package dash.meal.mealdash.domain.model;
 
-<<<<<<< HEAD
 
 import java.time.LocalDate;
-
+   
 public class User {
-    private String firstName;
-    private String lastName;
-    private String email;
+    private String id;
     private Location currentLocation;
-    private String password;
     private LocalDate dateOfBirth;
     private String nextKinName;
     private String gender;
-    private String phoneNumber;
     private String nextKinNumber;
     private Guarantor guarantor;
     private Bank bank;
-    private boolean isIdentityVerified;
-    private UserRole userRole;
     private Vehicle vehicle;
-=======
-public class User {
-    private String id;
     private String email;
     private String firstName;
     private String lastName;
@@ -31,7 +21,6 @@ public class User {
     private boolean enabled;
     private String createdAt;
     private String image;
-    private String gender;
     private String dateOfBirth;
     private String stateOfOrigin;
     private String maritalStatus;
@@ -47,5 +36,4 @@ public class User {
     private String accessToken;
     private String refreshToken;
     private String newPassword;
->>>>>>> origin/keycloak-security
 }
