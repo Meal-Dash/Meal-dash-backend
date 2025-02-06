@@ -21,7 +21,6 @@ public class User {
     private boolean enabled;
     private String createdAt;
     private String image;
-    private String dateOfBirth;
     private String stateOfOrigin;
     private String maritalStatus;
     private String stateOfResidence;
