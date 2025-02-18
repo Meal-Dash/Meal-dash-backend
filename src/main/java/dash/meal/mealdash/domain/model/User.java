@@ -1,7 +1,18 @@
 package dash.meal.mealdash.domain.model;
 
+
+import java.time.LocalDate;
+   
 public class User {
     private String id;
+    private Location currentLocation;
+    private LocalDate dateOfBirth;
+    private String nextKinName;
+    private String gender;
+    private String nextKinNumber;
+    private Guarantor guarantor;
+    private Bank bank;
+    private Vehicle vehicle;
     private String email;
     private String firstName;
     private String lastName;
@@ -10,8 +21,6 @@ public class User {
     private boolean enabled;
     private String createdAt;
     private String image;
-    private String gender;
-    private String dateOfBirth;
     private String stateOfOrigin;
     private String maritalStatus;
     private String stateOfResidence;
