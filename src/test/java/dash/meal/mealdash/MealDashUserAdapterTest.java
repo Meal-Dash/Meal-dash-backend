@@ -9,6 +9,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -18,7 +20,7 @@ class MealDashUserAdapterTest {
     private MealDashUserAdapter mealDashUserAdapter;
 
     @AfterEach
-    void tearDown() throws MealDashUserAdapterException {
+    void tearDown() {
         mealDashUserAdapter.deleteAll();
     }
 
@@ -416,6 +418,37 @@ class MealDashUserAdapterTest {
         Exception exception = assertThrows(MealDashUserAdapterException.class, () -> mealDashUserAdapter.deleteById(nonExistentId));
 
         assertEquals(ErrorMessage.USER_NOT_FOUND, exception.getMessage());
+    }
+
+    @Test
+    void testFindAllUsers_successful() throws MealDashUserAdapterException {
+        User user = new User();
+        user.setId("John123");
+        user.setFirstName("joy");
+        user.setLastName("Doe");
+        user.setEmail("joy@gmail.com");
+        user.setPassword("Password1@");
+        user.setPhoneNumber("01234567876");
+        mealDashUserAdapter.save(user);
+
+        User user2 = new User();
+        user2.setId("John1234");
+        user2.setFirstName("joys");
+        user2.setLastName("Does");
+        user2.setEmail("joy12@gmail.com");
+        user2.setPassword("PaSsword1@");
+        user2.setPhoneNumber("01234567676");
+        mealDashUserAdapter.save(user2);
+
+        List<User> findAll = mealDashUserAdapter.findAll();
+        assertNotNull(findAll);
+    }
+
+    @Test
+    void testFindAllUsers_usersNotFound_shouldThrowException() {
+        Exception exception = assertThrows(MealDashUserAdapterException.class, () -> mealDashUserAdapter.findAll());
+
+        assertEquals(ErrorMessage.NO_USERS_FOUND, exception.getMessage());
     }
 
 }
