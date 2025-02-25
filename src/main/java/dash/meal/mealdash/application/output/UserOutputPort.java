@@ -4,7 +4,6 @@ import dash.meal.mealdash.domain.exception.MealDashUserAdapterException;
 import dash.meal.mealdash.domain.model.User;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface UserOutputPort {
     User save(User user) throws MealDashUserAdapterException;
