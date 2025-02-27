@@ -1,18 +1,26 @@
 package dash.meal.mealdash.domain.model;
 
 
+import dash.meal.mealdash.domain.exception.ErrorMessage;
+import dash.meal.mealdash.domain.exception.MealDashUserAdapterException;
+import dash.meal.mealdash.domain.exception.RegexPattern;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.time.LocalDate;
-   
+
+@Setter
+@Getter
 public class User {
     private String id;
-    private Location currentLocation;
+//    private Location currentLocation;
     private LocalDate dateOfBirth;
     private String nextKinName;
     private String gender;
     private String nextKinNumber;
-    private Guarantor guarantor;
-    private Bank bank;
-    private Vehicle vehicle;
+//    private Guarantor guarantor;
+//    private Bank bank;
+//    private Vehicle vehicle;
     private String email;
     private String firstName;
     private String lastName;
@@ -35,4 +43,41 @@ public class User {
     private String accessToken;
     private String refreshToken;
     private String newPassword;
+
+
+    public void validateFields(User user) throws MealDashUserAdapterException {
+        validateFirstName(user.getFirstName());
+        validateLastName(user.getLastName());
+        validateEmail(user.getEmail());
+        validatePhoneNumber(user.getPhoneNumber());
+        validatePassword(user.getPassword());
+    }
+
+
+    public void validateFirstName(String firstName) throws MealDashUserAdapterException {
+        if (firstName == null || firstName.isEmpty()) throw new MealDashUserAdapterException(ErrorMessage.FIRST_NAME_MUST_BE_PROVIDED);
+        if (!firstName.matches(RegexPattern.NAME_REGEX)) throw new MealDashUserAdapterException(ErrorMessage.INVALID_NAME_FORMAT);
+
+    }
+
+    public void validateLastName(String lastName) throws MealDashUserAdapterException {
+        if (lastName == null || lastName.isEmpty()) throw new MealDashUserAdapterException(ErrorMessage.LAST_NAME_MUST_BE_PROVIDED);
+        if (!lastName.matches(RegexPattern.NAME_REGEX)) throw new MealDashUserAdapterException(ErrorMessage.INVALID_NAME_FORMAT);
+
+    }
+
+    public void validateEmail(String email) throws MealDashUserAdapterException {
+        if (email == null || email.isEmpty()) throw new MealDashUserAdapterException(ErrorMessage.EMAIL_IS_REQUIRED);
+        if (!email.matches(RegexPattern.EMAIL_REGEX)) throw new MealDashUserAdapterException(ErrorMessage.INVALID_MAIL_FORMAT);
+    }
+
+    public void validatePassword(String password) throws MealDashUserAdapterException {
+        if (password ==  null || password.isEmpty()) throw new MealDashUserAdapterException(ErrorMessage.PASSWORD_IS_REQUIRED);
+        if (!password.matches(RegexPattern.PASSWORD_REGEX)) throw new MealDashUserAdapterException(ErrorMessage.PASSWORD_IS_INVALID);
+    }
+
+    public void validatePhoneNumber(String phoneNumber) throws MealDashUserAdapterException {
+        if (phoneNumber == null || phoneNumber.isEmpty()) throw new MealDashUserAdapterException(ErrorMessage.PHONE_NUMBER_IS_REQUIRED);
+        if (!phoneNumber.matches(RegexPattern.PHONE_NUMBER_REGEX)) throw new MealDashUserAdapterException(ErrorMessage.PHONE_NUMBER_IS_INVALID);
+    }
 }

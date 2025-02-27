@@ -7,14 +7,14 @@ import org.springframework.context.annotation.Primary;
 
 @Configuration
 public class KeyCloakConfig {
-    @Value("${keycloak.server.url}")
-    private String KEYCLOAK_SERVER_URL;
-
-
-    @Value("${keycloak.auth.user}")
-    private String KEYCLOAK_USERNAME;
-    @Value("${keycloak.auth.password}")
-    private String KEYCLOAK_PASSWORD;
+//    @Value("${keycloak.server.url}")
+//    private String KEYCLOAK_SERVER_URL;
+//
+//
+//    @Value("${keycloak.auth.user}")
+//    private String KEYCLOAK_USERNAME;
+//    @Value("${keycloak.auth.password}")
+//    private String KEYCLOAK_PASSWORD;
 
 //    @Bean
 //    @Primary
