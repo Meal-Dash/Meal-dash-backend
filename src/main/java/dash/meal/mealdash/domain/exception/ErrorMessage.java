@@ -14,4 +14,5 @@ public class ErrorMessage {
     public static final String USER_NOT_FOUND = "User not found";
     public static final String USER_ALREADY_EXIST = "User already exist";
     public static final String NO_USERS_FOUND = "No users found";
+    public static final String SOMETHING_WENT_WRONG = "Something went wrong while creating user in keycloak";
 }
