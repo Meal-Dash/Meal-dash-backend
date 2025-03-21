@@ -5,7 +5,7 @@ import dash.meal.mealdash.domain.exception.ErrorMessage;
 import dash.meal.mealdash.domain.exception.MealDashUserAdapterException;
 import dash.meal.mealdash.domain.model.MealDashUser;
 import dash.meal.mealdash.infrastructure.adapter.mapper.MealDashMapper;
-import dash.meal.mealdash.infrastructure.adapter.output.persistence.entity.UserEntity;
+import dash.meal.mealdash.infrastructure.adapter.output.persistence.entity.MealDashEntity;
 import dash.meal.mealdash.infrastructure.adapter.output.persistence.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,9 +32,9 @@ public class MealDashUserAdapter implements UserOutputPort {
             log.warn("User with email {} already exists", mealDashUser.getEmail());
             throw new MealDashUserAdapterException(ErrorMessage.USER_ALREADY_EXIST);
         }
-       UserEntity userEntity = mealDashMapper.toUserEntity(mealDashUser);
-       UserEntity savedUserEntity = userRepository.save(userEntity);
-       return mealDashMapper.toUser(savedUserEntity);
+       MealDashEntity mealDashEntity = mealDashMapper.toUserEntity(mealDashUser);
+       MealDashEntity savedMealDashEntity = userRepository.save(mealDashEntity);
+       return mealDashMapper.toUser(savedMealDashEntity);
 
     }
 
