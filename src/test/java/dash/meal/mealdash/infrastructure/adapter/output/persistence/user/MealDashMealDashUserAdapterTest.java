@@ -1,14 +1,12 @@
-package dash.meal.mealdash.persistenceAdapter;
+package dash.meal.mealdash.infrastructure.adapter.output.persistence.user;
 
 import dash.meal.mealdash.domain.exception.ErrorMessage;
 import dash.meal.mealdash.domain.exception.MealDashUserAdapterException;
 import dash.meal.mealdash.domain.model.MealDashUser;
-import dash.meal.mealdash.infrastructure.adapter.output.persistence.user.MealDashUserAdapter;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Bean;
 
 import java.util.List;
 
