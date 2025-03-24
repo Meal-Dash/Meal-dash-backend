@@ -4,7 +4,7 @@ import dash.meal.mealdash.application.output.MealDashUserIdentityOutputPort;
 import dash.meal.mealdash.domain.exception.ErrorMessage;
 import dash.meal.mealdash.domain.exception.MealDashUserAdapterException;
 import dash.meal.mealdash.domain.model.UserRole;
-import dash.meal.mealdash.infrastructure.adapter.input.rest.data.request.SignupRequest;
+import dash.meal.mealdash.infrastructure.adapter.input.data.request.SignupRequest;
 import dash.meal.mealdash.infrastructure.adapter.mapper.MealDashMapper;
 import jakarta.ws.rs.core.Response;
 import lombok.RequiredArgsConstructor;
