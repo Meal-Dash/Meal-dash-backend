@@ -15,4 +15,8 @@ public class ErrorMessage {
     public static final String USER_ALREADY_EXIST = "User already exist";
     public static final String NO_USERS_FOUND = "No users found";
     public static final String SOMETHING_WENT_WRONG = "Something went wrong while creating user in keycloak";
+    public static final String OTP_NOT_FOUND = "Otp not found";
+    public static final String TOKEN_IS_REQUIRED = "Token cannot be null or empty";
+    public static final String OTP_EMAIL_IS_REQUIRED = "Email cannot be null or empty";
+    public static final String OTP_ALREADY_EXIST = "Otp already exist";
 }
