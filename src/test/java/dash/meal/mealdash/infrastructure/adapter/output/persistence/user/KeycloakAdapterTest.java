@@ -3,7 +3,7 @@ package dash.meal.mealdash.infrastructure.adapter.output.persistence.user;
 import dash.meal.mealdash.domain.exception.ErrorMessage;
 import dash.meal.mealdash.domain.exception.MealDashUserAdapterException;
 import dash.meal.mealdash.domain.model.UserRole;
-import dash.meal.mealdash.infrastructure.adapter.input.rest.data.request.SignupRequest;
+import dash.meal.mealdash.infrastructure.adapter.input.data.request.SignupRequest;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
