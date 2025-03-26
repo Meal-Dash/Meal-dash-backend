@@ -4,7 +4,6 @@ import dash.meal.mealdash.application.output.OtpOutputPort;
 import dash.meal.mealdash.domain.exception.OtpAdapterException;
 import dash.meal.mealdash.domain.model.Otp;
 import dash.meal.mealdash.domain.service.notification.otp.OtpService;
-import dash.meal.mealdash.infrastructure.adapter.input.data.response.OtpResponse;
 import dash.meal.mealdash.infrastructure.adapter.mapper.MealDashMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -45,7 +44,7 @@ public class OtpServiceTest {
         when(otpOutputPort.save(otp)).thenReturn(new Otp());
         when(otpOutputPort.findByEmail(otp.getEmail())).thenReturn(Optional.of(otp));
 
-        OtpResponse response = otpService.generateOtp(otp.getEmail());
+        Otp response = otpService.generateOtp(otp.getEmail());
         assertNotNull(response);
         assertNotNull(response.getToken());
 
@@ -58,7 +57,7 @@ public class OtpServiceTest {
         when(otpOutputPort.findByEmail(otp.getEmail())).thenReturn(Optional.of(otp));
         doNothing().when(otpOutputPort).delete(otp);
 
-        OtpResponse response = otpService.generateOtp(otp.getEmail());
+        Otp response = otpService.generateOtp(otp.getEmail());
         assertNotNull(response);
         assertNotNull(response.getToken());
 
