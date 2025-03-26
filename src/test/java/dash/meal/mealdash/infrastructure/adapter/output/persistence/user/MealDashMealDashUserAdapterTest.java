@@ -1,6 +1,6 @@
 package dash.meal.mealdash.infrastructure.adapter.output.persistence.user;
 
-import dash.meal.mealdash.domain.exception.ErrorMessage;
+import dash.meal.mealdash.domain.message.ErrorMessage;
 import dash.meal.mealdash.domain.exception.MealDashUserAdapterException;
 import dash.meal.mealdash.domain.model.MealDashUser;
 import lombok.extern.slf4j.Slf4j;
@@ -300,6 +300,24 @@ class MealDashMealDashUserAdapterTest {
         Exception exception = assertThrows(MealDashUserAdapterException.class, () -> mealDashUserAdapter.findAll());
 
         assertEquals(ErrorMessage.NO_USERS_FOUND, exception.getMessage());
+    }
+
+    @Test
+    void testExistsByEmail_returnsTrue() throws MealDashUserAdapterException {
+        mealDashUserAdapter.save(mealDashUser);
+
+        boolean result = mealDashUserAdapter.existsByEmail(mealDashUser.getEmail());
+
+        assertTrue(result);
+    }
+
+    @Test
+    void testExistsByEmail_returnsFalse() throws MealDashUserAdapterException {
+        mealDashUserAdapter.save(mealDashUser);
+
+        boolean result = mealDashUserAdapter.existsByEmail("mealDashUser.getEmail()");
+
+        assertFalse(result);
     }
 
 }
