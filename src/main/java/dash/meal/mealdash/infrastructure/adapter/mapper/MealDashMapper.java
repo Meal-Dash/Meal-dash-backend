@@ -9,6 +9,8 @@ import dash.meal.mealdash.infrastructure.adapter.output.persistence.entity.OtpEn
 import org.keycloak.representations.idm.UserRepresentation;
 import org.mapstruct.Mapper;
 
+import java.util.Optional;
+
 @Mapper(componentModel = "spring")
 public interface MealDashMapper {
     MealDashEntity toUserEntity(MealDashUser user);
@@ -20,4 +22,7 @@ public interface MealDashMapper {
     OtpEntity toOtpEntity(Otp otp);
 
     Otp toOtp(OtpEntity savedOtpEntity);
+
+    MealDashUser mapRequestToMealDash(SignupRequest signupRequest);
+
 }
