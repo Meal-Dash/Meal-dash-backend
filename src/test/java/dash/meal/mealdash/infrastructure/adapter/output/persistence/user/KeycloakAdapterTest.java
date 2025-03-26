@@ -1,6 +1,6 @@
 package dash.meal.mealdash.infrastructure.adapter.output.persistence.user;
 
-import dash.meal.mealdash.domain.exception.ErrorMessage;
+import dash.meal.mealdash.domain.message.ErrorMessage;
 import dash.meal.mealdash.domain.exception.MealDashUserAdapterException;
 import dash.meal.mealdash.domain.model.UserRole;
 import dash.meal.mealdash.infrastructure.adapter.input.data.request.SignupRequest;
@@ -44,7 +44,7 @@ class KeycloakAdapterTest {
         request.setLastName("test");
         request.setFirstName("tester");
 
-        UserRepresentation representation = keycloakAdapter.signUpUser(request);
+        UserRepresentation representation = keycloakAdapter.saveUser(request);
         createdUsers.add(request.getEmail());
         assertNotNull(representation);
     }
@@ -58,10 +58,10 @@ class KeycloakAdapterTest {
         request.setLastName("Joy");
         request.setFirstName("Janet");
 
-        keycloakAdapter.signUpUser(request);
+        keycloakAdapter.saveUser(request);
         createdUsers.add(request.getEmail());
 
-        MealDashUserAdapterException exception = assertThrows(MealDashUserAdapterException.class, () -> keycloakAdapter.signUpUser(request));
+        MealDashUserAdapterException exception = assertThrows(MealDashUserAdapterException.class, () -> keycloakAdapter.saveUser(request));
         assertEquals(ErrorMessage.USER_ALREADY_EXIST, exception.getMessage());
     }
 
