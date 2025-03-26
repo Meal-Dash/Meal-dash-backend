@@ -1,6 +1,6 @@
 package dash.meal.mealdash.infrastructure.adapter.input.data.request;
 
-import dash.meal.mealdash.domain.exception.ErrorMessage;
+import dash.meal.mealdash.domain.message.ErrorMessage;
 import dash.meal.mealdash.domain.exception.RegexPattern;
 import dash.meal.mealdash.domain.model.Location;
 import dash.meal.mealdash.domain.model.UserRole;
