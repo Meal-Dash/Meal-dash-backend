@@ -44,7 +44,7 @@ public class UserService implements UserUseCase {
         mealDash.validateFields(mealDash);
         mealDash.setEmail(signupRequest.getEmail());
 
-        UserRepresentation kcMealUser = mealDashUserIdentityOutputPort.signUpUser(signupRequest);
+        UserRepresentation kcMealUser = mealDashUserIdentityOutputPort.saveUser(signupRequest);
         log.info("keycloak signed up user {}", kcMealUser);
         mealDash.setId(kcMealUser.getId());
 
