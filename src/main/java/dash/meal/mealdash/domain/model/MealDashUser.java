@@ -1,18 +1,19 @@
 package dash.meal.mealdash.domain.model;
 
 
-import dash.meal.mealdash.domain.exception.ErrorMessage;
+import dash.meal.mealdash.domain.message.ErrorMessage;
 import dash.meal.mealdash.domain.exception.MealDashUserAdapterException;
 import dash.meal.mealdash.domain.exception.RegexPattern;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 
 @Setter
 @Getter
 @Builder
+@AllArgsConstructor
+//@NoArgsConstructor
+//@RequiredArgsConstructor
 public class MealDashUser {
     private String id;
 //    private Location currentLocation;
