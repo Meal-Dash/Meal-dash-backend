@@ -1,6 +1,6 @@
 package dash.meal.mealdash.infrastructure.adapter.output.persistence.user;
 
-import dash.meal.mealdash.domain.exception.ErrorMessage;
+import dash.meal.mealdash.domain.message.ErrorMessage;
 import dash.meal.mealdash.domain.exception.OtpAdapterException;
 import dash.meal.mealdash.domain.model.Otp;
 import lombok.extern.slf4j.Slf4j;
