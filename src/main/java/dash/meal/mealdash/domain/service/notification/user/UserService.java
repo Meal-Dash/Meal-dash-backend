@@ -14,6 +14,7 @@ import dash.meal.mealdash.domain.model.MealDashUser;
 import dash.meal.mealdash.domain.model.Otp;
 import dash.meal.mealdash.infrastructure.adapter.input.data.request.SignupRequest;
 import dash.meal.mealdash.infrastructure.adapter.mapper.MealDashMapper;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.keycloak.representations.idm.UserRepresentation;
@@ -31,20 +32,26 @@ public class UserService implements UserUseCase {
 
 
     @Override
+    @Transactional
     public String signUp(SignupRequest signupRequest) throws MealDashException, MealDashUserAdapterException, OtpAdapterException {
         if (userOutputPort.existsByEmail(signupRequest.getEmail())) throw new MealDashException(ErrorMessage.USER_ALREADY_EXIST);
-        UserRepresentation kcMealUser = mealDashUserIdentityOutputPort.signUpUser(signupRequest);
-        log.info("keycloak signed up user {}", kcMealUser);
-
-        MealDashUser mealDash = mealDashMapper.mapRequestToMealDash(signupRequest);
-        mealDash.setEmail(signupRequest.getEmail());
-        mealDash.setId(kcMealUser.getId());
-
-        userOutputPort.save(mealDash);
 
         Otp otp = otpUseCase.generateOtp(signupRequest.getEmail());
         log.info("OTP {}",otp);
         log.info("OTP: {} generated for user: {}", otp.getToken(), signupRequest.getEmail());
+
+        MealDashUser mealDash = mealDashMapper.mapRequestToMealDash(signupRequest);
+        mealDash.validateFields(mealDash);
+        mealDash.setEmail(signupRequest.getEmail());
+
+        UserRepresentation kcMealUser = mealDashUserIdentityOutputPort.signUpUser(signupRequest);
+        log.info("keycloak signed up user {}", kcMealUser);
+        mealDash.setId(kcMealUser.getId());
+
+
+        MealDashUser mealDashUser = userOutputPort.save(mealDash);
+        log.info("user saved with id: {}", mealDashUser.getId());
+
         emailUseCase.sendOtp(otp, signupRequest.getFirstName());
         log.info("OTP sent to: {}", signupRequest.getEmail());
 
