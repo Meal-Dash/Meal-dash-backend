@@ -1,17 +1,18 @@
 package dash.meal.mealdash.infrastructure.adapter.output.persistence.user;
 
 import dash.meal.mealdash.application.output.UserOutputPort;
-import dash.meal.mealdash.domain.exception.ErrorMessage;
+import dash.meal.mealdash.domain.message.ErrorMessage;
 import dash.meal.mealdash.domain.exception.MealDashUserAdapterException;
-import dash.meal.mealdash.domain.model.User;
+import dash.meal.mealdash.domain.model.MealDashUser;
 import dash.meal.mealdash.infrastructure.adapter.mapper.MealDashMapper;
-import dash.meal.mealdash.infrastructure.adapter.output.persistence.entity.UserEntity;
+import dash.meal.mealdash.infrastructure.adapter.output.persistence.entity.MealDashEntity;
 import dash.meal.mealdash.infrastructure.adapter.output.persistence.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
@@ -23,30 +24,46 @@ public class MealDashUserAdapter implements UserOutputPort {
 
 
     @Override
-    public User save(User user) throws MealDashUserAdapterException {
-       if (user == null) throw new MealDashUserAdapterException(ErrorMessage.USER_CANNOT_BE_NULL);
-       log.info("user {}",  user);
-       user.validateFields(user);
-        log.info("Attempting to save user with email: {}", user.getEmail());
-        if (userRepository.findByEmail(user.getEmail()).isPresent()) {
-            log.warn("User with email {} already exists", user.getEmail());
-            throw new MealDashUserAdapterException(ErrorMessage.USER_ALREADY_EXIST);
-        }
-       UserEntity userEntity = mealDashMapper.toUserEntity(user);
-       UserEntity savedUserEntity = userRepository.save(userEntity);
-       return mealDashMapper.toUser(savedUserEntity);
+    public MealDashUser save(MealDashUser mealDashUser) throws MealDashUserAdapterException {
+        try {
+            if (mealDashUser == null) throw new MealDashUserAdapterException(ErrorMessage.USER_CANNOT_BE_NULL);
 
+            log.info("Attempting to save user with ID: {} and email: {}",
+                    mealDashUser.getId(), mealDashUser.getEmail());
+
+            mealDashUser.validateFields(mealDashUser);
+
+            Optional<MealDashEntity> existingUser = userRepository.findByEmail(mealDashUser.getEmail());
+            if (existingUser.isPresent()) {
+                log.warn("User with email {} already exists with ID: {}",
+                        mealDashUser.getEmail(), existingUser.get().getId());
+                throw new MealDashUserAdapterException(ErrorMessage.USER_ALREADY_EXIST);
+            }
+
+            log.info("User object before conversion: {}", mealDashUser);
+
+            MealDashEntity mealDashEntity = mealDashMapper.toUserEntity(mealDashUser);
+            log.info("Entity object before save: {}", mealDashEntity.toString());
+
+            MealDashEntity savedMealDashEntity = userRepository.save(mealDashEntity);
+            log.info("Entity saved with ID: {}", savedMealDashEntity.getId());
+
+            return mealDashMapper.toUser(savedMealDashEntity);
+        } catch (Exception e) {
+            log.error("Error saving user to database", e);
+            throw new MealDashUserAdapterException("Failed to save user: " + e.getMessage());
+        }
     }
 
     @Override
-    public User findById(String id) throws MealDashUserAdapterException {
+    public MealDashUser findById(String id) throws MealDashUserAdapterException {
         return userRepository.findById(id)
                              .map(mealDashMapper::toUser)
                              .orElseThrow(() -> new MealDashUserAdapterException(ErrorMessage.USER_NOT_FOUND));
     }
 
     @Override
-    public User findByEmail(String email) throws MealDashUserAdapterException {
+    public MealDashUser findByEmail(String email) throws MealDashUserAdapterException {
         return userRepository.findByEmail(email)
                              .map(mealDashMapper::toUser)
                              .orElseThrow(() -> new MealDashUserAdapterException(ErrorMessage.USER_NOT_FOUND));
@@ -54,14 +71,14 @@ public class MealDashUserAdapter implements UserOutputPort {
     }
 
     @Override
-    public List<User> findAll() throws MealDashUserAdapterException {
-       List<User> users = userRepository.findAll()
+    public List<MealDashUser> findAll() throws MealDashUserAdapterException {
+       List<MealDashUser> mealDashUsers = userRepository.findAll()
                              .stream()
                              .map(mealDashMapper::toUser)
                              .collect(Collectors.toList());
 
-       if (users.isEmpty()) throw new MealDashUserAdapterException(ErrorMessage.NO_USERS_FOUND);
-       return users;
+       if (mealDashUsers.isEmpty()) throw new MealDashUserAdapterException(ErrorMessage.NO_USERS_FOUND);
+       return mealDashUsers;
     }
 
     @Override
@@ -78,6 +95,11 @@ public class MealDashUserAdapter implements UserOutputPort {
         log.info("Deleting user with ID: {}", id);
         userRepository.deleteById(id);
         log.info("User with ID {} has been deleted", id);
+    }
+
+    @Override
+    public boolean existsByEmail(String email) {
+        return userRepository.existsByEmail(email);
     }
 
     @Override

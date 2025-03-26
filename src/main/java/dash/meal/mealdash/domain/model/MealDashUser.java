@@ -1,17 +1,20 @@
 package dash.meal.mealdash.domain.model;
 
 
-import dash.meal.mealdash.domain.exception.ErrorMessage;
+import dash.meal.mealdash.domain.message.ErrorMessage;
 import dash.meal.mealdash.domain.exception.MealDashUserAdapterException;
 import dash.meal.mealdash.domain.exception.RegexPattern;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 
 @Setter
 @Getter
-public class User {
+@Builder
+@AllArgsConstructor
+//@NoArgsConstructor
+//@RequiredArgsConstructor
+public class MealDashUser {
     private String id;
 //    private Location currentLocation;
     private LocalDate dateOfBirth;
@@ -45,12 +48,12 @@ public class User {
     private String newPassword;
 
 
-    public void validateFields(User user) throws MealDashUserAdapterException {
-        validateFirstName(user.getFirstName());
-        validateLastName(user.getLastName());
-        validateEmail(user.getEmail());
-        validatePhoneNumber(user.getPhoneNumber());
-        validatePassword(user.getPassword());
+    public void validateFields(MealDashUser mealDashUser) throws MealDashUserAdapterException {
+        validateFirstName(mealDashUser.getFirstName());
+        validateLastName(mealDashUser.getLastName());
+        validateEmail(mealDashUser.getEmail());
+        validatePhoneNumber(mealDashUser.getPhoneNumber());
+        validatePassword(mealDashUser.getPassword());
     }
 
 
