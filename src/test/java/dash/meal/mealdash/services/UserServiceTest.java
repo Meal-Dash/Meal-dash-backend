@@ -76,7 +76,7 @@ public class UserServiceTest {
                 .build();
 
         when(userOutputPort.existsByEmail(request.getEmail())).thenReturn(false);
-        when(mealDashUserIdentityOutputPort.signUpUser(request)).thenReturn(new UserRepresentation());
+        when(mealDashUserIdentityOutputPort.saveUser(request)).thenReturn(new UserRepresentation());
         when(mealDashMapper.mapRequestToMealDash(request)).thenReturn(mealDashUser);
         when(userOutputPort.save(mealDashUser)).thenReturn(mealDashUser);
         when(otpUseCase.generateOtp(request.getEmail())).thenReturn(otp);
