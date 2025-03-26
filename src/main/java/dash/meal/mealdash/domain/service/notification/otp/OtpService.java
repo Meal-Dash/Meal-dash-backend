@@ -3,7 +3,7 @@ package dash.meal.mealdash.domain.service.notification.otp;
 import dash.meal.mealdash.application.input.otp.OtpUseCase;
 import dash.meal.mealdash.application.output.OtpOutputPort;
 import dash.meal.mealdash.domain.exception.OtpAdapterException;
-import dash.meal.mealdash.infrastructure.adapter.input.data.response.OtpResponse;
+import dash.meal.mealdash.domain.model.Otp;
 import dash.meal.mealdash.infrastructure.adapter.mapper.MealDashMapper;
 import dash.meal.mealdash.infrastructure.adapter.output.persistence.entity.OtpEntity;
 import lombok.AllArgsConstructor;
@@ -21,7 +21,7 @@ public class OtpService implements OtpUseCase {
     private final MealDashMapper mealDashMapper;
 
     @Override
-    public OtpResponse generateOtp(String email) throws OtpAdapterException {
+    public Otp generateOtp(String email) throws OtpAdapterException {
         otpOutputPort.findByEmail(email).ifPresent(otpOutputPort::delete);
 
         String otpToken = generateOtpToken();
@@ -33,7 +33,7 @@ public class OtpService implements OtpUseCase {
         otpOutputPort.save(mealDashMapper.toOtp(otpEntity));
         log.info("Saved OTP: {}", otpEntity);
 
-        return new OtpResponse(otpEntity.getToken(), otpEntity.getEmail(),  otpEntity.getCreatedAt());
+        return new Otp(otpEntity.getToken(), otpEntity.getEmail(),  otpEntity.getCreatedAt());
     }
 
     private String generateOtpToken() {
