@@ -5,7 +5,7 @@ import dash.meal.mealdash.infrastructure.adapter.input.data.request.SignupReques
 import org.keycloak.representations.idm.UserRepresentation;
 
 public interface MealDashUserIdentityOutputPort {
-    UserRepresentation signUpUser(SignupRequest request) throws MealDashUserAdapterException;
+    UserRepresentation saveUser(SignupRequest request) throws MealDashUserAdapterException;
     UserRepresentation getUserByEmail(String email) throws MealDashUserAdapterException;
     void deleteUser(String email);
 }
