@@ -1,7 +1,7 @@
 package dash.meal.mealdash.infrastructure.adapter.output.persistence.user;
 
 import dash.meal.mealdash.application.output.MealDashUserIdentityOutputPort;
-import dash.meal.mealdash.domain.exception.ErrorMessage;
+import dash.meal.mealdash.domain.message.ErrorMessage;
 import dash.meal.mealdash.domain.exception.MealDashUserAdapterException;
 import dash.meal.mealdash.domain.model.UserRole;
 import dash.meal.mealdash.infrastructure.adapter.input.data.request.SignupRequest;
@@ -35,7 +35,7 @@ public class KeycloakAdapter implements MealDashUserIdentityOutputPort {
 
 
     @Override
-    public UserRepresentation signUpUser(SignupRequest request) throws MealDashUserAdapterException {
+    public UserRepresentation saveUser(SignupRequest request) throws MealDashUserAdapterException {
         List<UserRepresentation> existingUsers = instance.realm(realm)
                 .users()
                 .searchByEmail(request.getEmail(), true);
@@ -47,7 +47,6 @@ public class KeycloakAdapter implements MealDashUserIdentityOutputPort {
         UserRepresentation userRepresentation = mapper.toUserRepresentation(request);
         userRepresentation.setUsername(request.getEmail());
         userRepresentation.setEnabled(true);
-        userRepresentation.setEmailVerified(true);
         completeSignup(request.getPassword(), request.getEmail(), request.getRole(), userRepresentation);
 
         return getUserByEmail(request.getEmail());
