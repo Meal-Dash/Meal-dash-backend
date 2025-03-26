@@ -1,4 +1,4 @@
-package dash.meal.mealdash.domain.exception;
+package dash.meal.mealdash.domain.message;
 
 public class ErrorMessage {
     public static final String USER_CANNOT_BE_NULL = "User cannot be null";
