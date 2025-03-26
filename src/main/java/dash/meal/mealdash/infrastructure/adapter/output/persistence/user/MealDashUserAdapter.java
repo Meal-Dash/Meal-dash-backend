@@ -1,7 +1,7 @@
 package dash.meal.mealdash.infrastructure.adapter.output.persistence.user;
 
 import dash.meal.mealdash.application.output.UserOutputPort;
-import dash.meal.mealdash.domain.exception.ErrorMessage;
+import dash.meal.mealdash.domain.message.ErrorMessage;
 import dash.meal.mealdash.domain.exception.MealDashUserAdapterException;
 import dash.meal.mealdash.domain.model.MealDashUser;
 import dash.meal.mealdash.infrastructure.adapter.mapper.MealDashMapper;
@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
@@ -24,18 +25,34 @@ public class MealDashUserAdapter implements UserOutputPort {
 
     @Override
     public MealDashUser save(MealDashUser mealDashUser) throws MealDashUserAdapterException {
-       if (mealDashUser == null) throw new MealDashUserAdapterException(ErrorMessage.USER_CANNOT_BE_NULL);
-       log.info("user {}", mealDashUser);
-       mealDashUser.validateFields(mealDashUser);
-        log.info("Attempting to save user with email: {}", mealDashUser.getEmail());
-        if (userRepository.findByEmail(mealDashUser.getEmail()).isPresent()) {
-            log.warn("User with email {} already exists", mealDashUser.getEmail());
-            throw new MealDashUserAdapterException(ErrorMessage.USER_ALREADY_EXIST);
-        }
-       MealDashEntity mealDashEntity = mealDashMapper.toUserEntity(mealDashUser);
-       MealDashEntity savedMealDashEntity = userRepository.save(mealDashEntity);
-       return mealDashMapper.toUser(savedMealDashEntity);
+        try {
+            if (mealDashUser == null) throw new MealDashUserAdapterException(ErrorMessage.USER_CANNOT_BE_NULL);
 
+            log.info("Attempting to save user with ID: {} and email: {}",
+                    mealDashUser.getId(), mealDashUser.getEmail());
+
+            mealDashUser.validateFields(mealDashUser);
+
+            Optional<MealDashEntity> existingUser = userRepository.findByEmail(mealDashUser.getEmail());
+            if (existingUser.isPresent()) {
+                log.warn("User with email {} already exists with ID: {}",
+                        mealDashUser.getEmail(), existingUser.get().getId());
+                throw new MealDashUserAdapterException(ErrorMessage.USER_ALREADY_EXIST);
+            }
+
+            log.info("User object before conversion: {}", mealDashUser);
+
+            MealDashEntity mealDashEntity = mealDashMapper.toUserEntity(mealDashUser);
+            log.info("Entity object before save: {}", mealDashEntity.toString());
+
+            MealDashEntity savedMealDashEntity = userRepository.save(mealDashEntity);
+            log.info("Entity saved with ID: {}", savedMealDashEntity.getId());
+
+            return mealDashMapper.toUser(savedMealDashEntity);
+        } catch (Exception e) {
+            log.error("Error saving user to database", e);
+            throw new MealDashUserAdapterException("Failed to save user: " + e.getMessage());
+        }
     }
 
     @Override
@@ -78,6 +95,11 @@ public class MealDashUserAdapter implements UserOutputPort {
         log.info("Deleting user with ID: {}", id);
         userRepository.deleteById(id);
         log.info("User with ID {} has been deleted", id);
+    }
+
+    @Override
+    public boolean existsByEmail(String email) {
+        return userRepository.existsByEmail(email);
     }
 
     @Override
