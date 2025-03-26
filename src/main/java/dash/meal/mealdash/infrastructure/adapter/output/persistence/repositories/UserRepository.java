@@ -7,6 +7,7 @@ import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<MealDashEntity, String> {
     Optional<MealDashEntity> findByEmail(String email);
+    boolean existsByEmail(String email);
 
 
 }
