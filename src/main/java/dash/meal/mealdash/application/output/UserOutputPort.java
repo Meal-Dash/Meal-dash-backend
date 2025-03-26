@@ -11,6 +11,7 @@ public interface UserOutputPort {
     MealDashUser findByEmail(String email) throws MealDashUserAdapterException;
     List<MealDashUser> findAll() throws MealDashUserAdapterException;
     void deleteById(String id) throws MealDashUserAdapterException;
+    boolean existsByEmail(String email);
     void deleteAll() throws MealDashUserAdapterException;
 
 }
