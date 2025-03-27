@@ -41,7 +41,7 @@ public class UserService implements UserUseCase {
         log.info("OTP: {} generated for user: {}", otp.getToken(), signupRequest.getEmail());
 
         MealDashUser mealDash = mealDashMapper.mapRequestToMealDash(signupRequest);
-        mealDash.validateFields(mealDash);
+        mealDash.validate();
         mealDash.setEmail(signupRequest.getEmail());
 
         UserRepresentation kcMealUser = mealDashUserIdentityOutputPort.saveUser(signupRequest);

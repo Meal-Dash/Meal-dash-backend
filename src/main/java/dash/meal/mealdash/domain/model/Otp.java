@@ -32,9 +32,9 @@ public class Otp {
         this.createdAt = createdAt;
     }
 
-    public void validations(Otp otp) throws OtpAdapterException {
-        validateToken(otp.token);
-        validateEmail(otp.email);
+    public void validations() throws OtpAdapterException {
+        validateToken(this.token);
+        validateEmail(this.email);
     }
 
     public void validateToken(String token) throws OtpAdapterException {

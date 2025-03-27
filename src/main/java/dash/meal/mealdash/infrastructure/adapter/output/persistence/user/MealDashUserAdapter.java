@@ -1,9 +1,11 @@
 package dash.meal.mealdash.infrastructure.adapter.output.persistence.user;
 
 import dash.meal.mealdash.application.output.UserOutputPort;
+import dash.meal.mealdash.domain.exception.MealDashException;
 import dash.meal.mealdash.domain.message.ErrorMessage;
 import dash.meal.mealdash.domain.exception.MealDashUserAdapterException;
 import dash.meal.mealdash.domain.model.MealDashUser;
+import dash.meal.mealdash.domain.validation.MealDashValidation;
 import dash.meal.mealdash.infrastructure.adapter.mapper.MealDashMapper;
 import dash.meal.mealdash.infrastructure.adapter.output.persistence.entity.MealDashEntity;
 import dash.meal.mealdash.infrastructure.adapter.output.persistence.repositories.UserRepository;
@@ -24,14 +26,14 @@ public class MealDashUserAdapter implements UserOutputPort {
 
 
     @Override
-    public MealDashUser save(MealDashUser mealDashUser) throws MealDashUserAdapterException {
-        try {
-            if (mealDashUser == null) throw new MealDashUserAdapterException(ErrorMessage.USER_CANNOT_BE_NULL);
+    public MealDashUser save(MealDashUser mealDashUser) throws MealDashUserAdapterException, MealDashException {
+        MealDashValidation.validateObjectInstance(mealDashUser, ErrorMessage.USER_CANNOT_BE_NULL);
+        mealDashUser.validate();
+//        try {
 
             log.info("Attempting to save user with ID: {} and email: {}",
                     mealDashUser.getId(), mealDashUser.getEmail());
 
-            mealDashUser.validateFields(mealDashUser);
 
             Optional<MealDashEntity> existingUser = userRepository.findByEmail(mealDashUser.getEmail());
             if (existingUser.isPresent()) {
@@ -49,10 +51,10 @@ public class MealDashUserAdapter implements UserOutputPort {
             log.info("Entity saved with ID: {}", savedMealDashEntity.getId());
 
             return mealDashMapper.toUser(savedMealDashEntity);
-        } catch (Exception e) {
-            log.error("Error saving user to database", e);
-            throw new MealDashUserAdapterException("Failed to save user: " + e.getMessage());
-        }
+//        } catch (Exception e) {
+//            log.error("Error saving user to database", e);
+//            throw new MealDashUserAdapterException("Failed to save user: " + e.getMessage());
+//        }
     }
 
     @Override

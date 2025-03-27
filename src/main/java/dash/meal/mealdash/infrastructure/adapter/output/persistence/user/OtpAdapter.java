@@ -24,7 +24,7 @@ public class OtpAdapter implements OtpOutputPort {
     @Override
     public Otp save(Otp otp) throws OtpAdapterException {
         log.info("Found otp {}", otp);
-        otp.validations(otp);
+        otp.validations();
         OtpEntity otpEntity = mealDashMapper.toOtpEntity(otp);
         OtpEntity savedOtpEntity = otpRepository.save(otpEntity);
         return mealDashMapper.toOtp(savedOtpEntity);
