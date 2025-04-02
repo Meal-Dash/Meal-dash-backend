@@ -6,7 +6,7 @@ import dash.meal.mealdash.domain.message.ErrorMessage;
 import dash.meal.mealdash.domain.exception.MealDashUserAdapterException;
 import dash.meal.mealdash.domain.model.MealDashUser;
 import dash.meal.mealdash.domain.validation.MealDashValidation;
-import dash.meal.mealdash.infrastructure.adapter.mapper.MealDashMapper;
+import dash.meal.mealdash.infrastructure.adapter.output.mapper.MealDashMapper;
 import dash.meal.mealdash.infrastructure.adapter.output.persistence.entity.MealDashEntity;
 import dash.meal.mealdash.infrastructure.adapter.output.persistence.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;

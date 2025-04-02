@@ -19,4 +19,5 @@ public class ErrorMessage {
     public static final String TOKEN_IS_REQUIRED = "Token cannot be null or empty";
     public static final String OTP_EMAIL_IS_REQUIRED = "Email cannot be null or empty";
     public static final String OTP_ALREADY_EXIST = "Otp already exist";
+    public static final String INVALID_USER_DETAILS = "User details cannot be empty.";
 }

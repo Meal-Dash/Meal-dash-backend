@@ -4,7 +4,7 @@ import dash.meal.mealdash.application.input.otp.OtpUseCase;
 import dash.meal.mealdash.application.output.OtpOutputPort;
 import dash.meal.mealdash.domain.exception.OtpAdapterException;
 import dash.meal.mealdash.domain.model.Otp;
-import dash.meal.mealdash.infrastructure.adapter.mapper.MealDashMapper;
+import dash.meal.mealdash.infrastructure.adapter.output.mapper.MealDashMapper;
 import dash.meal.mealdash.infrastructure.adapter.output.persistence.entity.OtpEntity;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

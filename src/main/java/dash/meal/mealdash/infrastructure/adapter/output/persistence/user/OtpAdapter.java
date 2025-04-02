@@ -1,10 +1,9 @@
 package dash.meal.mealdash.infrastructure.adapter.output.persistence.user;
 
 import dash.meal.mealdash.application.output.OtpOutputPort;
-import dash.meal.mealdash.domain.message.ErrorMessage;
 import dash.meal.mealdash.domain.exception.OtpAdapterException;
 import dash.meal.mealdash.domain.model.Otp;
-import dash.meal.mealdash.infrastructure.adapter.mapper.MealDashMapper;
+import dash.meal.mealdash.infrastructure.adapter.output.mapper.MealDashMapper;
 import dash.meal.mealdash.infrastructure.adapter.output.persistence.entity.OtpEntity;
 import dash.meal.mealdash.infrastructure.adapter.output.persistence.repositories.OtpRepository;
 import lombok.RequiredArgsConstructor;

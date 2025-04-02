@@ -14,8 +14,6 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 @AllArgsConstructor
 public class Otp {
-    @Id
-    @UuidGenerator
     private String id;
 
     private String token;

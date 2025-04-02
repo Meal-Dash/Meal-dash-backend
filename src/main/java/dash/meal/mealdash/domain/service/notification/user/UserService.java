@@ -12,8 +12,8 @@ import dash.meal.mealdash.domain.exception.OtpAdapterException;
 import dash.meal.mealdash.domain.message.SuccessMessage;
 import dash.meal.mealdash.domain.model.MealDashUser;
 import dash.meal.mealdash.domain.model.Otp;
-import dash.meal.mealdash.infrastructure.adapter.input.data.request.SignupRequest;
-import dash.meal.mealdash.infrastructure.adapter.mapper.MealDashMapper;
+import dash.meal.mealdash.infrastructure.adapter.input.data.request.CustomerSignupRequest;
+import dash.meal.mealdash.infrastructure.adapter.output.mapper.MealDashMapper;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,27 +33,25 @@ public class UserService implements UserUseCase {
 
     @Override
     @Transactional
-    public String signUp(SignupRequest signupRequest) throws MealDashException, MealDashUserAdapterException, OtpAdapterException {
-        if (userOutputPort.existsByEmail(signupRequest.getEmail())) throw new MealDashException(ErrorMessage.USER_ALREADY_EXIST);
+    public String signUp(MealDashUser user) throws MealDashException, MealDashUserAdapterException, OtpAdapterException {
+        if (user == null) throw new MealDashException(ErrorMessage.INVALID_USER_DETAILS);
+        user.validate();
+        if (userOutputPort.existsByEmail(user.getEmail())) throw new MealDashException(ErrorMessage.USER_ALREADY_EXIST);
 
-        Otp otp = otpUseCase.generateOtp(signupRequest.getEmail());
+        Otp otp = otpUseCase.generateOtp(user.getEmail());
         log.info("OTP {}",otp);
-        log.info("OTP: {} generated for user: {}", otp.getToken(), signupRequest.getEmail());
+        log.info("OTP: {} generated for user: {}", otp.getToken(), user.getEmail());
 
-        MealDashUser mealDash = mealDashMapper.mapRequestToMealDash(signupRequest);
-        mealDash.validate();
-        mealDash.setEmail(signupRequest.getEmail());
-
-        UserRepresentation kcMealUser = mealDashUserIdentityOutputPort.saveUser(signupRequest);
+        UserRepresentation kcMealUser = mealDashUserIdentityOutputPort.saveUser(user);
         log.info("keycloak signed up user {}", kcMealUser);
-        mealDash.setId(kcMealUser.getId());
+        user.setId(kcMealUser.getId());
 
 
-        MealDashUser mealDashUser = userOutputPort.save(mealDash);
+        MealDashUser mealDashUser = userOutputPort.save(user);
         log.info("user saved with id: {}", mealDashUser.getId());
 
-        emailUseCase.sendOtp(otp, signupRequest.getFirstName());
-        log.info("OTP sent to: {}", signupRequest.getEmail());
+        emailUseCase.sendOtp(otp, user.getFirstName());
+        log.info("OTP sent to: {}", user.getEmail());
 
         return SuccessMessage.SUCCESSFUL_REGISTRATION;
     }

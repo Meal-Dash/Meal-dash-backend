@@ -10,10 +10,6 @@ import java.time.LocalDate;
 
 @Setter
 @Getter
-@Builder
-@AllArgsConstructor
-//@NoArgsConstructor
-//@RequiredArgsConstructor
 public class MealDashUser {
     private String id;
 //    private Location currentLocation;

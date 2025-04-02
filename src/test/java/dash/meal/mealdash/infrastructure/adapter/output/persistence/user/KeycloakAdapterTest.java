@@ -2,8 +2,8 @@ package dash.meal.mealdash.infrastructure.adapter.output.persistence.user;
 
 import dash.meal.mealdash.domain.message.ErrorMessage;
 import dash.meal.mealdash.domain.exception.MealDashUserAdapterException;
+import dash.meal.mealdash.domain.model.MealDashUser;
 import dash.meal.mealdash.domain.model.UserRole;
-import dash.meal.mealdash.infrastructure.adapter.input.data.request.SignupRequest;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -37,31 +37,31 @@ class KeycloakAdapterTest {
 
     @Test
     void testKeycloakUserSignUp_successful() throws MealDashUserAdapterException {
-        SignupRequest request = new SignupRequest();
-        request.setEmail("test12@gmail.com");
-        request.setPassword("pasSW123@");
-        request.setRole(UserRole.CUSTOMER);
-        request.setLastName("test");
-        request.setFirstName("tester");
+        MealDashUser user = new MealDashUser();
+        user.setEmail("test12@gmail.com");
+        user.setPassword("pasSW123@");
+        user.setRole(UserRole.CUSTOMER);
+        user.setLastName("test");
+        user.setFirstName("tester");
 
-        UserRepresentation representation = keycloakAdapter.saveUser(request);
-        createdUsers.add(request.getEmail());
+        UserRepresentation representation = keycloakAdapter.saveUser(user);
+        createdUsers.add(user.getEmail());
         assertNotNull(representation);
     }
 
     @Test
     void testKeycloakSignup_throwExceptionWhenUserExists() throws MealDashUserAdapterException {
-        SignupRequest request = new SignupRequest();
-        request.setEmail("joy@gmail.com");
-        request.setPassword("pasSW123@");
-        request.setRole(UserRole.CUSTOMER);
-        request.setLastName("Joy");
-        request.setFirstName("Janet");
+        MealDashUser user = new MealDashUser();
+        user.setEmail("joy@gmail.com");
+        user.setPassword("pasSW123@");
+        user.setRole(UserRole.CUSTOMER);
+        user.setLastName("Joy");
+        user.setFirstName("Janet");
 
-        keycloakAdapter.saveUser(request);
-        createdUsers.add(request.getEmail());
+        keycloakAdapter.saveUser(user);
+        createdUsers.add(user.getEmail());
 
-        MealDashUserAdapterException exception = assertThrows(MealDashUserAdapterException.class, () -> keycloakAdapter.saveUser(request));
+        MealDashUserAdapterException exception = assertThrows(MealDashUserAdapterException.class, () -> keycloakAdapter.saveUser(user));
         assertEquals(ErrorMessage.USER_ALREADY_EXIST, exception.getMessage());
     }
 

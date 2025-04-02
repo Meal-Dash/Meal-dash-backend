@@ -14,7 +14,7 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class SignupRequest {
+public class CustomerSignupRequest {
     @NotBlank
     @Pattern(regexp = RegexPattern.NAME_REGEX, message = ErrorMessage.INVALID_NAME_FORMAT)
     private String firstName;

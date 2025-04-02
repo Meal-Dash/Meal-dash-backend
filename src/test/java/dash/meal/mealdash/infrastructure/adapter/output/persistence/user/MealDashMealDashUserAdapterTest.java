@@ -56,7 +56,7 @@ class MealDashMealDashUserAdapterTest {
     void testSaveUser_successful() throws MealDashUserAdapterException, MealDashException {
         MealDashUser savedMealDashUser = userOutputPort.save(mealDashUser);
         assertNotNull(savedMealDashUser);
-        assertEquals("Joy", mealDashUser.getFirstName());
+        assertEquals(mealDashUser.getFirstName(), savedMealDashUser.getFirstName());
     }
 
     @Test
