@@ -29,7 +29,6 @@ public class MealDashUserAdapter implements UserOutputPort {
     public MealDashUser save(MealDashUser mealDashUser) throws MealDashUserAdapterException, MealDashException {
         MealDashValidation.validateObjectInstance(mealDashUser, ErrorMessage.USER_CANNOT_BE_NULL);
         mealDashUser.validate();
-//        try {
 
             log.info("Attempting to save user with ID: {} and email: {}",
                     mealDashUser.getId(), mealDashUser.getEmail());
@@ -51,10 +50,7 @@ public class MealDashUserAdapter implements UserOutputPort {
             log.info("Entity saved with ID: {}", savedMealDashEntity.getId());
 
             return mealDashMapper.toUser(savedMealDashEntity);
-//        } catch (Exception e) {
-//            log.error("Error saving user to database", e);
-//            throw new MealDashUserAdapterException("Failed to save user: " + e.getMessage());
-//        }
+
     }
 
     @Override
