@@ -14,8 +14,6 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 @AllArgsConstructor
 public class Otp {
-    @Id
-    @UuidGenerator
     private String id;
 
     private String token;
@@ -32,9 +30,9 @@ public class Otp {
         this.createdAt = createdAt;
     }
 
-    public void validations(Otp otp) throws OtpAdapterException {
-        validateToken(otp.token);
-        validateEmail(otp.email);
+    public void validations() throws OtpAdapterException {
+        validateToken(this.token);
+        validateEmail(this.email);
     }
 
     public void validateToken(String token) throws OtpAdapterException {

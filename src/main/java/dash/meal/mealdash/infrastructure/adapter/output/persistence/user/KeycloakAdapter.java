@@ -3,9 +3,10 @@ package dash.meal.mealdash.infrastructure.adapter.output.persistence.user;
 import dash.meal.mealdash.application.output.MealDashUserIdentityOutputPort;
 import dash.meal.mealdash.domain.message.ErrorMessage;
 import dash.meal.mealdash.domain.exception.MealDashUserAdapterException;
+import dash.meal.mealdash.domain.model.MealDashUser;
 import dash.meal.mealdash.domain.model.UserRole;
-import dash.meal.mealdash.infrastructure.adapter.input.data.request.SignupRequest;
-import dash.meal.mealdash.infrastructure.adapter.mapper.MealDashMapper;
+import dash.meal.mealdash.infrastructure.adapter.input.data.request.CustomerSignupRequest;
+import dash.meal.mealdash.infrastructure.adapter.output.mapper.MealDashMapper;
 import jakarta.ws.rs.core.Response;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,21 +36,21 @@ public class KeycloakAdapter implements MealDashUserIdentityOutputPort {
 
 
     @Override
-    public UserRepresentation saveUser(SignupRequest request) throws MealDashUserAdapterException {
+    public UserRepresentation saveUser(MealDashUser user) throws MealDashUserAdapterException {
         List<UserRepresentation> existingUsers = instance.realm(realm)
                 .users()
-                .searchByEmail(request.getEmail(), true);
+                .searchByEmail(user.getEmail(), true);
 
         if (!existingUsers.isEmpty()) {
             log.info("Existing user -----> {}", existingUsers);
             throw new MealDashUserAdapterException(ErrorMessage.USER_ALREADY_EXIST);
         }
-        UserRepresentation userRepresentation = mapper.toUserRepresentation(request);
-        userRepresentation.setUsername(request.getEmail());
+        UserRepresentation userRepresentation = mapper.toUserRepresentation(user);
+        userRepresentation.setUsername(user.getEmail());
         userRepresentation.setEnabled(true);
-        completeSignup(request.getPassword(), request.getEmail(), request.getRole(), userRepresentation);
+        completeSignup(user.getPassword(), user.getEmail(), user.getRole(), userRepresentation);
 
-        return getUserByEmail(request.getEmail());
+        return getUserByEmail(user.getEmail());
     }
 
 

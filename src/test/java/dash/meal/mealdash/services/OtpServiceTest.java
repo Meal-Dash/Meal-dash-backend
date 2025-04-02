@@ -4,7 +4,7 @@ import dash.meal.mealdash.application.output.OtpOutputPort;
 import dash.meal.mealdash.domain.exception.OtpAdapterException;
 import dash.meal.mealdash.domain.model.Otp;
 import dash.meal.mealdash.domain.service.notification.otp.OtpService;
-import dash.meal.mealdash.infrastructure.adapter.mapper.MealDashMapper;
+import dash.meal.mealdash.infrastructure.adapter.output.mapper.MealDashMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

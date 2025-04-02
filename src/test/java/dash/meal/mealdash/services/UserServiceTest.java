@@ -1,5 +1,6 @@
 package dash.meal.mealdash.services;
 
+import dash.meal.mealDashTestData.TestData;
 import dash.meal.mealdash.application.input.email.EmailUseCase;
 import dash.meal.mealdash.application.input.otp.OtpUseCase;
 import dash.meal.mealdash.application.output.MealDashUserIdentityOutputPort;
@@ -13,8 +14,10 @@ import dash.meal.mealdash.domain.model.MealDashUser;
 import dash.meal.mealdash.domain.model.Otp;
 import dash.meal.mealdash.domain.model.UserRole;
 import dash.meal.mealdash.domain.service.notification.user.UserService;
-import dash.meal.mealdash.infrastructure.adapter.input.data.request.SignupRequest;
-import dash.meal.mealdash.infrastructure.adapter.mapper.MealDashMapper;
+import dash.meal.mealdash.infrastructure.adapter.input.data.request.CustomerSignupRequest;
+import dash.meal.mealdash.infrastructure.adapter.output.mapper.MealDashMapper;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.keycloak.representations.idm.UserRepresentation;
@@ -49,58 +52,38 @@ public class UserServiceTest {
 
     @Mock
     private EmailUseCase emailUseCase;
+    private MealDashUser user;
+    @BeforeEach
+    void setUp(){
+        user = TestData.buildTestUser("johndoe@gmail.com");
+    }
 
     @Test
     void testSignup_successful() throws MealDashUserAdapterException, OtpAdapterException, MealDashException {
-        SignupRequest request = SignupRequest.builder()
-                .firstName("John")
-                .lastName("Doe")
-                .email("john@doe.com")
-                .password("Pass123#$")
-                .role(UserRole.CUSTOMER)
-                .phoneNumber("09182954673")
-                .build();
-        MealDashUser mealDashUser = MealDashUser.builder()
-                .phoneNumber(request.getPhoneNumber())
-                .firstName(request.getFirstName())
-                .lastName(request.getLastName())
-                .email(request.getEmail())
-                .password(request.getPassword())
-                .role(UserRole.CUSTOMER)
-                .build();
 
         Otp otp = Otp.builder()
                 .token("123543")
-                .email(request.getEmail())
+                .email(user.getEmail())
                 .createdAt(LocalDateTime.now())
                 .build();
 
-        when(userOutputPort.existsByEmail(request.getEmail())).thenReturn(false);
-        when(mealDashUserIdentityOutputPort.saveUser(request)).thenReturn(new UserRepresentation());
-        when(mealDashMapper.mapRequestToMealDash(request)).thenReturn(mealDashUser);
-        when(userOutputPort.save(mealDashUser)).thenReturn(mealDashUser);
-        when(otpUseCase.generateOtp(request.getEmail())).thenReturn(otp);
-        doNothing().when(emailUseCase).sendOtp(otp, request.getFirstName());
+        when(userOutputPort.existsByEmail(user.getEmail())).thenReturn(false);
+        when(mealDashUserIdentityOutputPort.saveUser(user)).thenReturn(new UserRepresentation());
+        when(userOutputPort.save(user)).thenReturn(user);
+        when(otpUseCase.generateOtp(user.getEmail())).thenReturn(otp);
+        doNothing().when(emailUseCase).sendOtp(otp, user.getFirstName());
 
-        String message = userService.signUp(request);
+        String message = userService.signUp(user);
 
         assertEquals(SuccessMessage.SUCCESSFUL_REGISTRATION, message);
     }
 
     @Test
     void testSignup_throwExceptionWhenUserExist(){
-        SignupRequest request = SignupRequest.builder()
-                .firstName("John")
-                .lastName("Doe")
-                .email("john@doe.com")
-                .password("Pass123#$")
-                .role(UserRole.CUSTOMER)
-                .phoneNumber("09182954673")
-                .build();
 
-        when(userOutputPort.existsByEmail(request.getEmail())).thenReturn(true);
+        when(userOutputPort.existsByEmail(user.getEmail())).thenReturn(true);
 
-        MealDashException mealDashException = assertThrows(MealDashException.class, ()-> userService.signUp(request));
+        MealDashException mealDashException = assertThrows(MealDashException.class, ()-> userService.signUp(user));
         assertEquals(ErrorMessage.USER_ALREADY_EXIST, mealDashException.getMessage());
     }
 }

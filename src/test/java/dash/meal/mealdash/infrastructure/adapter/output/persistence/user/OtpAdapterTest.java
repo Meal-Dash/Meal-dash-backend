@@ -28,14 +28,12 @@ public class OtpAdapterTest {
     void setUp() {
         otp = Otp.builder()
                 .token("124345")
-                .id("123_AFB")
                 .createdAt(LocalDateTime.now())
                 .email("test@test.com")
                 .build();
 
         otp2 = Otp.builder()
                 .token("124345")
-                .id("123_AFB")
                 .createdAt(LocalDateTime.now())
                 .email("test@test.com")
                 .build();
@@ -97,7 +95,7 @@ public class OtpAdapterTest {
 
     @Test
     void testFindOtpByEmail_throwExceptionWhenOtpNotFound() {
-        String email = "otp.getEmail()";
+        String email = "otpgetEmail()";
 
         OtpAdapterException otpAdapterException = assertThrows(OtpAdapterException.class, ()-> otpAdapter.findByEmail(email));
         assertEquals(ErrorMessage.OTP_NOT_FOUND, otpAdapterException.getMessage());
