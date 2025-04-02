@@ -10,10 +10,6 @@ import java.time.LocalDate;
 
 @Setter
 @Getter
-@Builder
-@AllArgsConstructor
-//@NoArgsConstructor
-//@RequiredArgsConstructor
 public class MealDashUser {
     private String id;
 //    private Location currentLocation;
@@ -48,12 +44,12 @@ public class MealDashUser {
     private String newPassword;
 
 
-    public void validateFields(MealDashUser mealDashUser) throws MealDashUserAdapterException {
-        validateFirstName(mealDashUser.getFirstName());
-        validateLastName(mealDashUser.getLastName());
-        validateEmail(mealDashUser.getEmail());
-        validatePhoneNumber(mealDashUser.getPhoneNumber());
-        validatePassword(mealDashUser.getPassword());
+    public void validate() throws MealDashUserAdapterException {
+        validateFirstName(this.getFirstName());
+        validateLastName(this.getLastName());
+        validateEmail(this.getEmail());
+        validatePhoneNumber(this.getPhoneNumber());
+        validatePassword(this.getPassword());
     }
 
 
