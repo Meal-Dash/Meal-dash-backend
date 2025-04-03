@@ -22,7 +22,6 @@ public class OtpAdapterTest {
     private OtpAdapter otpAdapter;
 
     private Otp otp;
-    private Otp otp2;
 
     @BeforeEach
     void setUp() {
@@ -32,11 +31,6 @@ public class OtpAdapterTest {
                 .email("test@test.com")
                 .build();
 
-        otp2 = Otp.builder()
-                .token("124345")
-                .createdAt(LocalDateTime.now())
-                .email("test@test.com")
-                .build();
     }
 
     @AfterAll
@@ -101,11 +95,10 @@ public class OtpAdapterTest {
         assertEquals(ErrorMessage.OTP_NOT_FOUND, otpAdapterException.getMessage());
     }
 
-    @Test
-    void testDeleteOtp_successful() {
-        otpAdapter.delete(otp2);
 
-        OtpAdapterException exception = assertThrows(OtpAdapterException.class, ()-> otpAdapter.findByEmail(otp2.getEmail()));
+    @Test
+    void testDeleteOtpAndThrowExceptionWhenOtpIsNull() throws OtpAdapterException {
+        OtpAdapterException exception = assertThrows(OtpAdapterException.class, ()-> otpAdapter.delete(null));
         assertEquals(ErrorMessage.OTP_NOT_FOUND, exception.getMessage());
     }
 }

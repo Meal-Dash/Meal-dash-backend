@@ -42,13 +42,8 @@ class MealDashMealDashUserAdapterTest {
     }
 
     @AfterAll
-    void tearDown() {
-        try {
-            MealDashUser foundUser = userOutputPort.findByEmail(mealDashUser.getEmail());
-            userOutputPort.deleteById(mealDashUser.getId());
-        } catch (MealDashUserAdapterException exception) {
-            log.info("User not found in tearDown, skipping delete: {}", exception.getMessage());
-        }
+    void tearDown() throws MealDashUserAdapterException {
+        userOutputPort.deleteAll();
     }
 
 

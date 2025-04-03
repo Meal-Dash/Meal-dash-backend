@@ -20,9 +20,9 @@ public class OtpService implements OtpUseCase {
     private final OtpOutputPort otpOutputPort;
     private final MealDashMapper mealDashMapper;
 
+
     @Override
     public Otp generateOtp(String email) throws OtpAdapterException {
-        otpOutputPort.findByEmail(email).ifPresent(otpOutputPort::delete);
 
         String otpToken = generateOtpToken();
         log.info("Generated OTP: {}", otpToken);

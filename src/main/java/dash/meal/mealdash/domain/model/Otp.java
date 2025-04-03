@@ -20,8 +20,6 @@ public class Otp {
 
     private String email;
 
-    private String emailToken;
-
     private LocalDateTime createdAt;
 
     public Otp(String token, String email, LocalDateTime createdAt) {
