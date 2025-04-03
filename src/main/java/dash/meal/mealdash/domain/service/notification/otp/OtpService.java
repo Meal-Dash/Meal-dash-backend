@@ -23,7 +23,6 @@ public class OtpService implements OtpUseCase {
 
     @Override
     public Otp generateOtp(String email) throws OtpAdapterException {
-
         String otpToken = generateOtpToken();
         log.info("Generated OTP: {}", otpToken);
 
