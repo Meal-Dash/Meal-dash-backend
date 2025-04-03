@@ -2,6 +2,7 @@ package dash.meal.mealdash.infrastructure.adapter.output.persistence.user;
 
 import dash.meal.mealdash.application.output.OtpOutputPort;
 import dash.meal.mealdash.domain.exception.OtpAdapterException;
+import dash.meal.mealdash.domain.message.ErrorMessage;
 import dash.meal.mealdash.domain.model.Otp;
 import dash.meal.mealdash.infrastructure.adapter.output.mapper.MealDashMapper;
 import dash.meal.mealdash.infrastructure.adapter.output.persistence.entity.OtpEntity;
@@ -29,19 +30,16 @@ public class OtpAdapter implements OtpOutputPort {
         return mealDashMapper.toOtp(savedOtpEntity);
     }
 
-    @Override
-    public Optional<Otp> findByEmail(String email) {
-        return otpRepository.findByEmail(email)
-                .map(mealDashMapper::toOtp);
+
+    public Optional<Otp> findByEmail(String email) throws OtpAdapterException {
+        return Optional.of(otpRepository.findByEmail(email).map(mealDashMapper::toOtp)
+                .orElseThrow(() -> new OtpAdapterException(ErrorMessage.OTP_NOT_FOUND)));
     }
-//    public Optional<Otp> findByEmail(String email) throws OtpAdapterException {
-//        return Optional.of(otpRepository.findByEmail(email).map(mealDashMapper::toOtp)
-//                .orElseThrow(() -> new OtpAdapterException(ErrorMessage.OTP_NOT_FOUND)));
-//    }
 
 
     @Override
-    public void delete(Otp otp) {
+    public void delete(Otp otp) throws OtpAdapterException {
+        if (otp == null) throw new OtpAdapterException(ErrorMessage.OTP_NOT_FOUND);
         otpRepository.delete(mealDashMapper.toOtpEntity(otp));
     }
 }
