@@ -36,7 +36,7 @@ class KeycloakAdapterTest {
     }
 
     @Test
-    void testKeycloakUserSignUp_successful() throws MealDashUserAdapterException {
+    void KeycloakUserSignUp() throws MealDashUserAdapterException {
         MealDashUser user = new MealDashUser();
         user.setEmail("test12@gmail.com");
         user.setPassword("pasSW123@");
@@ -50,7 +50,7 @@ class KeycloakAdapterTest {
     }
 
     @Test
-    void testKeycloakSignup_throwExceptionWhenUserExists() throws MealDashUserAdapterException {
+    void KeycloakSignupThrowExceptionWhenUserExists() throws MealDashUserAdapterException {
         MealDashUser user = new MealDashUser();
         user.setEmail("joy@gmail.com");
         user.setPassword("pasSW123@");
