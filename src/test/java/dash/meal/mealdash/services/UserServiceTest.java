@@ -6,7 +6,7 @@ import dash.meal.mealdash.application.input.otp.OtpUseCase;
 import dash.meal.mealdash.application.output.UserIdentityOutputPort;
 import dash.meal.mealdash.application.output.UserOutputPort;
 import dash.meal.mealdash.domain.exception.MealDashException;
-import dash.meal.mealdash.domain.exception.MealDashUserAdapterException;
+import dash.meal.mealdash.domain.exception.UserAdapterException;
 import dash.meal.mealdash.domain.exception.OtpAdapterException;
 import dash.meal.mealdash.domain.message.ErrorMessage;
 import dash.meal.mealdash.domain.message.SuccessMessage;
@@ -56,7 +56,7 @@ public class UserServiceTest {
     }
 
     @Test
-    void testSignup_successful() throws MealDashUserAdapterException, OtpAdapterException, MealDashException {
+    void testSignup_successful() throws UserAdapterException, OtpAdapterException, MealDashException {
 
         Otp otp = Otp.builder()
                 .token("123543")
