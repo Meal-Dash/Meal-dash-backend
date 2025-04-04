@@ -1,18 +1,18 @@
 package dash.meal.mealdash.application.output;
 
 import dash.meal.mealdash.domain.exception.MealDashException;
-import dash.meal.mealdash.domain.exception.MealDashUserAdapterException;
+import dash.meal.mealdash.domain.exception.UserAdapterException;
 import dash.meal.mealdash.domain.model.MealDashUser;
 
 import java.util.List;
 
 public interface UserOutputPort {
-    MealDashUser save(MealDashUser mealDashUser) throws MealDashUserAdapterException, MealDashException;
-    MealDashUser findById(String id) throws MealDashUserAdapterException;
-    MealDashUser findByEmail(String email) throws MealDashUserAdapterException;
-    List<MealDashUser> findAll() throws MealDashUserAdapterException;
-    void deleteById(String id) throws MealDashUserAdapterException;
+    MealDashUser save(MealDashUser mealDashUser) throws UserAdapterException, MealDashException;
+    MealDashUser findById(String id) throws UserAdapterException;
+    MealDashUser findByEmail(String email) throws UserAdapterException;
+    List<MealDashUser> findAll() throws UserAdapterException;
+    void deleteById(String id) throws UserAdapterException;
     boolean existsByEmail(String email);
-    void deleteAll() throws MealDashUserAdapterException;
+    void deleteAll() throws UserAdapterException;
 
 }
