@@ -1,9 +1,9 @@
 package dash.meal.mealdash.infrastructure.adapter.output.persistence.user;
 
 import dash.meal.mealdash.domain.message.ErrorMessage;
-import dash.meal.mealdash.domain.exception.MealDashUserAdapterException;
+import dash.meal.mealdash.domain.exception.UserAdapterException;
 import dash.meal.mealdash.domain.model.MealDashUser;
-import dash.meal.mealdash.domain.model.UserRole;
+import dash.meal.mealdash.domain.enums.UserRole;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -36,7 +36,7 @@ class KeycloakAdapterTest {
     }
 
     @Test
-    void KeycloakUserSignUp() throws MealDashUserAdapterException {
+    void KeycloakUserSignUp() throws UserAdapterException {
         MealDashUser user = new MealDashUser();
         user.setEmail("test12@gmail.com");
         user.setPassword("pasSW123@");
@@ -50,7 +50,7 @@ class KeycloakAdapterTest {
     }
 
     @Test
-    void KeycloakSignupThrowExceptionWhenUserExists() throws MealDashUserAdapterException {
+    void KeycloakSignupThrowExceptionWhenUserExists() throws UserAdapterException {
         MealDashUser user = new MealDashUser();
         user.setEmail("joy@gmail.com");
         user.setPassword("pasSW123@");
@@ -61,7 +61,7 @@ class KeycloakAdapterTest {
         keycloakAdapter.saveUser(user);
         createdUsers.add(user.getEmail());
 
-        MealDashUserAdapterException exception = assertThrows(MealDashUserAdapterException.class, () -> keycloakAdapter.saveUser(user));
+        UserAdapterException exception = assertThrows(UserAdapterException.class, () -> keycloakAdapter.saveUser(user));
         assertEquals(ErrorMessage.USER_ALREADY_EXIST, exception.getMessage());
     }
 
