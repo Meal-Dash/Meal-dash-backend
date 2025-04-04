@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class MealDashMealDashUserAdapterTest {
+class MealDashUserAdapterTest {
 
     @Autowired
     private UserOutputPort userOutputPort;
@@ -43,7 +43,7 @@ class MealDashMealDashUserAdapterTest {
 
     @AfterAll
     void tearDown() throws MealDashUserAdapterException {
-        userOutputPort.deleteAll();
+//        userOutputPort.deleteAll();
     }
 
 
@@ -280,9 +280,10 @@ class MealDashMealDashUserAdapterTest {
     @Test
     void findAllUsers() throws MealDashUserAdapterException, MealDashException {
         userOutputPort.save(mealDashUser);
-        List<MealDashUser> findAll = userOutputPort.findAll();
-        log.info("All users found {}", findAll);
-        assertNotNull(findAll);
+        List<MealDashUser> users = userOutputPort.findAll();
+        log.info("All users found {}", users);
+        assertNotNull(users);
+        assertFalse(users.isEmpty());
     }
 
     @Test
