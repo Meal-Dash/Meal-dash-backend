@@ -1,4 +1,4 @@
-package dash.meal.mealdash.domain.exception;
+package dash.meal.mealdash.domain.validation;
 
 public class RegexPattern {
     public static final String NAME_REGEX = "^[A-Za-z'-]+(?: [A-Za-z'-]+)*$";
