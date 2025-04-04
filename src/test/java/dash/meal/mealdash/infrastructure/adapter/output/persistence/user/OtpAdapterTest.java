@@ -39,14 +39,14 @@ public class OtpAdapterTest {
     }
 
     @Test
-    void testSaveOtp_successful() throws OtpAdapterException {
+    void saveOtp() throws OtpAdapterException {
         Otp savedOtp = otpAdapter.save(otp);
         assertEquals(otp.getToken(), savedOtp.getToken());
         assertNotNull(savedOtp);
     }
 
     @Test
-    void testSaveOtp_throwExceptionWhenTokenIsNull(){
+    void saveOtpThrowExceptionWhenTokenIsNull(){
         otp.setToken(null);
 
         OtpAdapterException exception = assertThrows(OtpAdapterException.class, ()-> otpAdapter.save(otp));
@@ -54,7 +54,7 @@ public class OtpAdapterTest {
     }
 
     @Test
-    void testSaveOtp_throwExceptionWhenTokenIsEmpty(){
+    void saveOtpThrowExceptionWhenTokenIsEmpty(){
         otp.setToken("");
 
         OtpAdapterException exception = assertThrows(OtpAdapterException.class, ()-> otpAdapter.save(otp));
@@ -62,7 +62,7 @@ public class OtpAdapterTest {
     }
 
     @Test
-    void testSaveOtp_throwExceptionWhenEmailIsNull(){
+    void saveOtpThrowExceptionWhenEmailIsNull(){
         otp.setEmail(null);
 
         OtpAdapterException exception = assertThrows(OtpAdapterException.class, ()-> otpAdapter.save(otp));
@@ -70,7 +70,7 @@ public class OtpAdapterTest {
     }
 
     @Test
-    void testSaveOtp_throwExceptionWhenEmailIsEmpty(){
+    void saveOtpThrowExceptionWhenEmailIsEmpty(){
         otp.setEmail("");
 
         OtpAdapterException exception = assertThrows(OtpAdapterException.class, ()-> otpAdapter.save(otp));
@@ -78,7 +78,7 @@ public class OtpAdapterTest {
     }
 
     @Test
-    void testFindOtpByEmail_successful() throws OtpAdapterException {
+    void findOtpByEmail() throws OtpAdapterException {
         String email = otp.getEmail();
         otpAdapter.save(otp);
         Optional<Otp> foundOtp = otpAdapter.findByEmail(email);
@@ -88,7 +88,7 @@ public class OtpAdapterTest {
     }
 
     @Test
-    void testFindOtpByEmail_throwExceptionWhenOtpNotFound() {
+    void findOtpByEmailThrowExceptionWhenOtpNotFound() {
         String email = "otpgetEmail()";
 
         OtpAdapterException otpAdapterException = assertThrows(OtpAdapterException.class, ()-> otpAdapter.findByEmail(email));
@@ -97,7 +97,7 @@ public class OtpAdapterTest {
 
 
     @Test
-    void testDeleteOtpAndThrowExceptionWhenOtpIsNull() throws OtpAdapterException {
+    void deleteOtpAndThrowExceptionWhenOtpIsNull() throws OtpAdapterException {
         OtpAdapterException exception = assertThrows(OtpAdapterException.class, ()-> otpAdapter.delete(null));
         assertEquals(ErrorMessage.OTP_NOT_FOUND, exception.getMessage());
     }

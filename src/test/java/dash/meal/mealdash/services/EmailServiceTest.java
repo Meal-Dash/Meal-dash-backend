@@ -16,7 +16,7 @@ public class EmailServiceTest {
     private EmailService emailService;
 
     @Test
-    void testSendOtp_successful(){
+    void sendOtp(){
         Otp otp = new Otp();
         otp.setEmail("test@email.com");
         otp.setToken("123456");

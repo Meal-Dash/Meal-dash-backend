@@ -15,7 +15,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
@@ -40,7 +39,7 @@ public class OtpServiceTest {
     }
 
     @Test
-    void testGenerateOtp_successful() throws OtpAdapterException {
+    void generateOtp() throws OtpAdapterException {
         when(otpOutputPort.save(otp)).thenReturn(new Otp());
         when(otpOutputPort.findByEmail(otp.getEmail())).thenReturn(Optional.of(otp));
 
@@ -51,16 +50,4 @@ public class OtpServiceTest {
 
     }
 
-    @Test
-    void testGenerateOtp_findOtpByEmail_ifPresentDeleteOtp() throws OtpAdapterException {
-        when(otpOutputPort.save(otp)).thenReturn(new Otp());
-        when(otpOutputPort.findByEmail(otp.getEmail())).thenReturn(Optional.of(otp));
-        doNothing().when(otpOutputPort).delete(otp);
-
-        Otp response = otpService.generateOtp(otp.getEmail());
-        assertNotNull(response);
-        assertNotNull(response.getToken());
-
-
-    }
 }

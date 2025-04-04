@@ -3,7 +3,7 @@ package dash.meal.mealdash.services;
 import dash.meal.mealDashTestData.TestData;
 import dash.meal.mealdash.application.input.email.EmailUseCase;
 import dash.meal.mealdash.application.input.otp.OtpUseCase;
-import dash.meal.mealdash.application.output.MealDashUserIdentityOutputPort;
+import dash.meal.mealdash.application.output.UserIdentityOutputPort;
 import dash.meal.mealdash.application.output.UserOutputPort;
 import dash.meal.mealdash.domain.exception.MealDashException;
 import dash.meal.mealdash.domain.exception.MealDashUserAdapterException;
@@ -12,11 +12,8 @@ import dash.meal.mealdash.domain.message.ErrorMessage;
 import dash.meal.mealdash.domain.message.SuccessMessage;
 import dash.meal.mealdash.domain.model.MealDashUser;
 import dash.meal.mealdash.domain.model.Otp;
-import dash.meal.mealdash.domain.model.UserRole;
 import dash.meal.mealdash.domain.service.notification.user.UserService;
-import dash.meal.mealdash.infrastructure.adapter.input.data.request.CustomerSignupRequest;
 import dash.meal.mealdash.infrastructure.adapter.output.mapper.MealDashMapper;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -42,7 +39,7 @@ public class UserServiceTest {
     private UserOutputPort userOutputPort;
 
     @Mock
-    private MealDashUserIdentityOutputPort mealDashUserIdentityOutputPort;
+    private UserIdentityOutputPort userIdentityOutputPort;
 
     @Mock
     private MealDashMapper mealDashMapper;
@@ -68,7 +65,7 @@ public class UserServiceTest {
                 .build();
 
         when(userOutputPort.existsByEmail(user.getEmail())).thenReturn(false);
-        when(mealDashUserIdentityOutputPort.saveUser(user)).thenReturn(new UserRepresentation());
+        when(userIdentityOutputPort.saveUser(user)).thenReturn(new UserRepresentation());
         when(userOutputPort.save(user)).thenReturn(user);
         when(otpUseCase.generateOtp(user.getEmail())).thenReturn(otp);
         doNothing().when(emailUseCase).sendOtp(otp, user.getFirstName());

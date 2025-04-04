@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class MealDashMealDashUserAdapterTest {
+class MealDashUserAdapterTest {
 
     @Autowired
     private UserOutputPort userOutputPort;
@@ -43,19 +43,19 @@ class MealDashMealDashUserAdapterTest {
 
     @AfterAll
     void tearDown() throws MealDashUserAdapterException {
-        userOutputPort.deleteAll();
+//        userOutputPort.deleteAll();
     }
 
 
     @Test
-    void testSaveUser_successful() throws MealDashUserAdapterException, MealDashException {
+    void saveUser() throws MealDashUserAdapterException, MealDashException {
         MealDashUser savedMealDashUser = userOutputPort.save(mealDashUser);
         assertNotNull(savedMealDashUser);
         assertEquals(mealDashUser.getFirstName(), savedMealDashUser.getFirstName());
     }
 
     @Test
-    void testSaveUser_throwExceptionWhenUserAlreadyExist() throws MealDashUserAdapterException, MealDashException {
+    void saveUserThrowExceptionWhenUserAlreadyExist() throws MealDashUserAdapterException, MealDashException {
         userOutputPort.save(mealDashUser);
 
         MealDashUserAdapterException exception = assertThrows(MealDashUserAdapterException.class, () -> userOutputPort.save(mealDashUser));
@@ -63,13 +63,13 @@ class MealDashMealDashUserAdapterTest {
     }
 
     @Test
-    void testSaveUser_throwExceptionWhenUserIsNull(){
+    void saveUser_throwExceptionWhenUserIsNull(){
         MealDashException exception = assertThrows(MealDashException.class, () -> userOutputPort.save(null));
         assertEquals(ErrorMessage.USER_CANNOT_BE_NULL, exception.getMessage());
     }
 
     @Test
-    void testSaveUser_throwExceptionWhenUserFirstNameIsEmpty(){
+    void saveUserThrowExceptionWhenUserFirstNameIsEmpty(){
         mealDashUser.setFirstName("");
 
         MealDashUserAdapterException exception = assertThrows(MealDashUserAdapterException.class, () -> userOutputPort.save(mealDashUser));
@@ -77,7 +77,7 @@ class MealDashMealDashUserAdapterTest {
     }
 
     @Test
-    void testSaveUser_throwExceptionWhenUserFirstNameIsNull(){
+    void saveUserThrowExceptionWhenUserFirstNameIsNull(){
         mealDashUser.setFirstName(null);
 
         MealDashUserAdapterException exception = assertThrows(MealDashUserAdapterException.class, () -> userOutputPort.save(mealDashUser));
@@ -85,7 +85,7 @@ class MealDashMealDashUserAdapterTest {
     }
 
     @Test
-    void testSaveUser_throwExceptionWhenUserFirstNameFormatIsInvalid(){
+    void saveUserThrowExceptionWhenUserFirstNameFormatIsInvalid(){
         mealDashUser.setFirstName("Mary123");
 
         MealDashUserAdapterException exception = assertThrows(MealDashUserAdapterException.class, () -> userOutputPort.save(mealDashUser));
@@ -93,7 +93,7 @@ class MealDashMealDashUserAdapterTest {
     }
 
     @Test
-    void testSaveUser_throwExceptionWhenUserLastNameIsEmpty(){
+    void saveUserThrowExceptionWhenUserLastNameIsEmpty(){
         mealDashUser.setLastName("");
 
         MealDashUserAdapterException exception = assertThrows(MealDashUserAdapterException.class, () -> userOutputPort.save(mealDashUser));
@@ -101,7 +101,7 @@ class MealDashMealDashUserAdapterTest {
     }
 
     @Test
-    void testSaveUser_throwExceptionWhenUserLastNameIsNull(){
+    void saveUserThrowExceptionWhenUserLastNameIsNull(){
         mealDashUser.setLastName(null);
 
         MealDashUserAdapterException exception = assertThrows(MealDashUserAdapterException.class, () -> userOutputPort.save(mealDashUser));
@@ -109,7 +109,7 @@ class MealDashMealDashUserAdapterTest {
     }
 
     @Test
-    void testSaveUser_throwExceptionWhenUserLastNameFormatIsInvalid(){
+    void saveUserThrowExceptionWhenUserLastNameFormatIsInvalid(){
         mealDashUser.setLastName("Mary123");
 
         MealDashUserAdapterException exception = assertThrows(MealDashUserAdapterException.class, () -> userOutputPort.save(mealDashUser));
@@ -117,7 +117,7 @@ class MealDashMealDashUserAdapterTest {
     }
 
     @Test
-    void testSaveUser_throwExceptionWhenUserEmailIsEmpty(){
+    void saveUserThrowExceptionWhenUserEmailIsEmpty(){
         mealDashUser.setEmail("");
 
         MealDashUserAdapterException exception = assertThrows(MealDashUserAdapterException.class, () -> userOutputPort.save(mealDashUser));
@@ -125,7 +125,7 @@ class MealDashMealDashUserAdapterTest {
     }
 
     @Test
-    void testSaveUser_throwExceptionWhenUserEmailIsNull(){
+    void saveUserThrowExceptionWhenUserEmailIsNull(){
         mealDashUser.setEmail(null);
 
         MealDashUserAdapterException exception = assertThrows(MealDashUserAdapterException.class, () -> userOutputPort.save(mealDashUser));
@@ -133,7 +133,7 @@ class MealDashMealDashUserAdapterTest {
     }
 
     @Test
-    void testSaveUser_throwExceptionWhenUserEmailFormatIsInvalid(){
+    void saveUserThrowExceptionWhenUserEmailFormatIsInvalid(){
         mealDashUser.setEmail("~)(&we433");
 
         MealDashUserAdapterException exception = assertThrows(MealDashUserAdapterException.class, () -> userOutputPort.save(mealDashUser));
@@ -141,7 +141,7 @@ class MealDashMealDashUserAdapterTest {
     }
 
     @Test
-    void testSaveUser_throwExceptionWhenPasswordIsEmpty(){
+    void saveUserThrowExceptionWhenPasswordIsEmpty(){
         mealDashUser.setPassword("");
 
         MealDashUserAdapterException exception = assertThrows(MealDashUserAdapterException.class, () -> userOutputPort.save(mealDashUser));
@@ -149,7 +149,7 @@ class MealDashMealDashUserAdapterTest {
     }
 
     @Test
-    void testSaveUser_throwExceptionWhenPasswordIsNull(){
+    void saveUserThrowExceptionWhenPasswordIsNull(){
         mealDashUser.setPassword(null);
 
         MealDashUserAdapterException exception = assertThrows(MealDashUserAdapterException.class, () -> userOutputPort.save(mealDashUser));
@@ -157,7 +157,7 @@ class MealDashMealDashUserAdapterTest {
     }
 
     @Test
-    void testSaveUser_throwExceptionWhenPasswordIsValid_containsOnlySpecialCharacter(){
+    void saveUserThrowExceptionWhenPasswordIsValid_containsOnlySpecialCharacter(){
         mealDashUser.setPassword("@#$%^");
 
         MealDashUserAdapterException exception = assertThrows(MealDashUserAdapterException.class, () -> userOutputPort.save(mealDashUser));
@@ -165,7 +165,7 @@ class MealDashMealDashUserAdapterTest {
     }
 
     @Test
-    void testSaveUser_throwExceptionWhenPasswordIsValid_containsOnlyNumbers(){
+    void saveUserThrowExceptionWhenPasswordIsValid_containsOnlyNumbers(){
         mealDashUser.setPassword("12345");
 
         MealDashUserAdapterException exception = assertThrows(MealDashUserAdapterException.class, () -> userOutputPort.save(mealDashUser));
@@ -173,7 +173,7 @@ class MealDashMealDashUserAdapterTest {
     }
 
     @Test
-    void testSaveUser_throwExceptionWhenPasswordIsValid_containsOnlyLowerCaseLetters(){
+    void saveUserThrowExceptionWhenPasswordIsValid_containsOnlyLowerCaseLetters(){
         mealDashUser.setPassword("abeyter");
 
         MealDashUserAdapterException exception = assertThrows(MealDashUserAdapterException.class, () -> userOutputPort.save(mealDashUser));
@@ -181,7 +181,7 @@ class MealDashMealDashUserAdapterTest {
     }
 
     @Test
-    void testSaveUser_throwExceptionWhenPasswordIsValid_containsOnlyUpperCaseLetters(){
+    void saveUserThrowExceptionWhenPasswordIsValid_containsOnlyUpperCaseLetters(){
         mealDashUser.setPassword("ABYUNCE");
 
         MealDashUserAdapterException exception = assertThrows(MealDashUserAdapterException.class, () -> userOutputPort.save(mealDashUser));
@@ -189,7 +189,7 @@ class MealDashMealDashUserAdapterTest {
     }
 
     @Test
-    void testSaveUser_throwExceptionWhenPasswordIsValid_lessThanEightCharacters(){
+    void saveUserThrowExceptionWhenPasswordIsValid_lessThanEightCharacters(){
         mealDashUser.setPassword("Ab1!");
 
         MealDashUserAdapterException exception = assertThrows(MealDashUserAdapterException.class, () -> userOutputPort.save(mealDashUser));
@@ -197,7 +197,7 @@ class MealDashMealDashUserAdapterTest {
     }
 
     @Test
-    void testSaveUser_throwExceptionWhenPhoneNumberIsEmpty(){
+    void saveUserThrowExceptionWhenPhoneNumberIsEmpty(){
         mealDashUser.setPhoneNumber("");
 
         MealDashUserAdapterException exception = assertThrows(MealDashUserAdapterException.class, () -> userOutputPort.save(mealDashUser));
@@ -205,7 +205,7 @@ class MealDashMealDashUserAdapterTest {
     }
 
     @Test
-    void testSaveUser_throwExceptionWhenPhoneNumberIsNull(){
+    void saveUserThrowExceptionWhenPhoneNumberIsNull(){
         mealDashUser.setPhoneNumber(null);
 
         MealDashUserAdapterException exception = assertThrows(MealDashUserAdapterException.class, () -> userOutputPort.save(mealDashUser));
@@ -214,7 +214,7 @@ class MealDashMealDashUserAdapterTest {
 
 
     @Test
-    void testSaveUser_throwExceptionWhenPhoneNumberIsInvalid(){
+    void saveUserThrowExceptionWhenPhoneNumberIsInvalid(){
         mealDashUser.setPhoneNumber("0908byu");
 
         MealDashUserAdapterException exception = assertThrows(MealDashUserAdapterException.class, () -> userOutputPort.save(mealDashUser));
@@ -222,7 +222,7 @@ class MealDashMealDashUserAdapterTest {
     }
 
     @Test
-    void testSaveUser_throwExceptionWhenPhoneNumberIsInvalid_numberMoreThanEleven(){
+    void saveUserThrowExceptionWhenPhoneNumberIsInvalidNumberMoreThanEleven(){
         mealDashUser.setPhoneNumber("01234567890987");
 
         MealDashUserAdapterException exception = assertThrows(MealDashUserAdapterException.class, () -> userOutputPort.save(mealDashUser));
@@ -230,7 +230,7 @@ class MealDashMealDashUserAdapterTest {
     }
 
     @Test
-    void testFindUserByEmail_successful() throws MealDashUserAdapterException, MealDashException {
+    void findUserByEmail() throws MealDashUserAdapterException, MealDashException {
         userOutputPort.save(mealDashUser);
 
         MealDashUser foundMealDashUser = userOutputPort.findByEmail(mealDashUser.getEmail());
@@ -239,13 +239,13 @@ class MealDashMealDashUserAdapterTest {
     }
 
     @Test
-    void testFindUserByEmail_throwExceptionWhenUserNotFound(){
+    void findUserByEmailThrowExceptionWhenUserNotFound(){
         MealDashUserAdapterException exception = assertThrows(MealDashUserAdapterException.class, () -> userOutputPort.findByEmail("hyu@gmail.com"));
         assertEquals(ErrorMessage.USER_NOT_FOUND, exception.getMessage());
     }
 
     @Test
-    void testFindById_successful() throws MealDashUserAdapterException, MealDashException {
+    void findById() throws MealDashUserAdapterException, MealDashException {
         userOutputPort.save(mealDashUser);
 
         MealDashUser foundMealDashUser = userOutputPort.findById(mealDashUser.getId());
@@ -254,13 +254,13 @@ class MealDashMealDashUserAdapterTest {
     }
 
     @Test
-    void testFindUserById_throwExceptionWhenUserNotFound(){
+    void findUserByIdThrowExceptionWhenUserNotFound(){
         MealDashUserAdapterException exception = assertThrows(MealDashUserAdapterException.class, () -> userOutputPort.findByEmail("765@W45"));
         assertEquals(ErrorMessage.USER_NOT_FOUND, exception.getMessage());
     }
 
     @Test
-    void testDeleteUserById_successful() throws MealDashUserAdapterException, MealDashException {
+    void deleteUserById() throws MealDashUserAdapterException, MealDashException {
         userOutputPort.save(mealDashUser);
         userOutputPort.deleteById(mealDashUser.getId());
 
@@ -269,7 +269,7 @@ class MealDashMealDashUserAdapterTest {
 
 
     @Test
-    void testDeleteById_userNotFound_shouldThrowException() {
+    void deleteByIdUserNotFoundThrowException() {
         String nonExistentId = "invalid123";
 
         Exception exception = assertThrows(MealDashUserAdapterException.class, () -> userOutputPort.deleteById(nonExistentId));
@@ -278,22 +278,23 @@ class MealDashMealDashUserAdapterTest {
     }
 
     @Test
-    void testFindAllUsers_successful() throws MealDashUserAdapterException, MealDashException {
+    void findAllUsers() throws MealDashUserAdapterException, MealDashException {
         userOutputPort.save(mealDashUser);
-        List<MealDashUser> findAll = userOutputPort.findAll();
-        log.info("All users found {}", findAll);
-        assertNotNull(findAll);
+        List<MealDashUser> users = userOutputPort.findAll();
+        log.info("All users found {}", users);
+        assertNotNull(users);
+        assertFalse(users.isEmpty());
     }
 
     @Test
-    void testFindAllUsers_usersNotFound_shouldThrowException() {
+    void findAllUsersUsersNotFoundThrowException() {
         Exception exception = assertThrows(MealDashUserAdapterException.class, () -> userOutputPort.findAll());
 
         assertEquals(ErrorMessage.NO_USERS_FOUND, exception.getMessage());
     }
 
     @Test
-    void testExistsByEmail_returnsTrue() throws MealDashUserAdapterException, MealDashException {
+    void existsByEmailReturnsTrue() throws MealDashUserAdapterException, MealDashException {
         userOutputPort.save(mealDashUser);
 
         boolean result = userOutputPort.existsByEmail(mealDashUser.getEmail());
@@ -302,7 +303,7 @@ class MealDashMealDashUserAdapterTest {
     }
 
     @Test
-    void testExistsByEmail_returnsFalse() throws MealDashUserAdapterException, MealDashException {
+    void existsByEmailReturnsFalse() throws MealDashUserAdapterException, MealDashException {
         userOutputPort.save(mealDashUser);
 
         boolean result = userOutputPort.existsByEmail("mealDashUser.getEmail()");

@@ -1,11 +1,10 @@
 package dash.meal.mealdash.infrastructure.adapter.output.persistence.user;
 
-import dash.meal.mealdash.application.output.MealDashUserIdentityOutputPort;
+import dash.meal.mealdash.application.output.UserIdentityOutputPort;
 import dash.meal.mealdash.domain.message.ErrorMessage;
 import dash.meal.mealdash.domain.exception.MealDashUserAdapterException;
 import dash.meal.mealdash.domain.model.MealDashUser;
 import dash.meal.mealdash.domain.model.UserRole;
-import dash.meal.mealdash.infrastructure.adapter.input.data.request.CustomerSignupRequest;
 import dash.meal.mealdash.infrastructure.adapter.output.mapper.MealDashMapper;
 import jakarta.ws.rs.core.Response;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +24,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 @Slf4j
 @Service
-public class KeycloakAdapter implements MealDashUserIdentityOutputPort {
+public class KeycloakAdapter implements UserIdentityOutputPort {
 
     @Value("${realm}")
     private String realm;
