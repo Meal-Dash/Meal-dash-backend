@@ -2,9 +2,9 @@ package dash.meal.mealdash.infrastructure.adapter.output.persistence.user;
 
 import dash.meal.mealdash.application.output.UserIdentityOutputPort;
 import dash.meal.mealdash.domain.message.ErrorMessage;
-import dash.meal.mealdash.domain.exception.MealDashUserAdapterException;
+import dash.meal.mealdash.domain.exception.UserAdapterException;
 import dash.meal.mealdash.domain.model.MealDashUser;
-import dash.meal.mealdash.domain.model.UserRole;
+import dash.meal.mealdash.domain.enums.UserRole;
 import dash.meal.mealdash.infrastructure.adapter.output.mapper.MealDashMapper;
 import jakarta.ws.rs.core.Response;
 import lombok.RequiredArgsConstructor;
@@ -35,14 +35,14 @@ public class KeycloakAdapter implements UserIdentityOutputPort {
 
 
     @Override
-    public UserRepresentation saveUser(MealDashUser user) throws MealDashUserAdapterException {
+    public UserRepresentation saveUser(MealDashUser user) throws UserAdapterException {
         List<UserRepresentation> existingUsers = instance.realm(realm)
                 .users()
                 .searchByEmail(user.getEmail(), true);
 
         if (!existingUsers.isEmpty()) {
             log.info("Existing user -----> {}", existingUsers);
-            throw new MealDashUserAdapterException(ErrorMessage.USER_ALREADY_EXIST);
+            throw new UserAdapterException(ErrorMessage.USER_ALREADY_EXIST);
         }
         UserRepresentation userRepresentation = mapper.toUserRepresentation(user);
         userRepresentation.setUsername(user.getEmail());
@@ -54,11 +54,11 @@ public class KeycloakAdapter implements UserIdentityOutputPort {
 
 
     @Override
-    public UserRepresentation getUserByEmail(String email) throws MealDashUserAdapterException {
+    public UserRepresentation getUserByEmail(String email) throws UserAdapterException {
         List<UserRepresentation> users = instance.realm(realm).users().searchByEmail(email, true);
         log.info("found users --------> {}", users);
         if (users.isEmpty()) {
-            throw new MealDashUserAdapterException(ErrorMessage.USER_NOT_FOUND);
+            throw new UserAdapterException(ErrorMessage.USER_NOT_FOUND);
         }
         return users.get(0);
     }
@@ -75,7 +75,7 @@ public class KeycloakAdapter implements UserIdentityOutputPort {
                 .delete(userId);
     }
 
-    private void completeSignup(String password, String email, UserRole role, UserRepresentation userRepresentation) throws MealDashUserAdapterException {
+    private void completeSignup(String password, String email, UserRole role, UserRepresentation userRepresentation) throws UserAdapterException {
         if (!Objects.equals(password, "")) setupPassword(password, userRepresentation);
         createUser(userRepresentation);
 
@@ -84,14 +84,14 @@ public class KeycloakAdapter implements UserIdentityOutputPort {
         assignRoleToUser(userId, role);
     }
 
-    private void createUser(UserRepresentation user) throws MealDashUserAdapterException {
+    private void createUser(UserRepresentation user) throws UserAdapterException {
         try (Response response = instance.realm(realm)
                 .users()
                 .create(user)) {
             log.info("created user ------> {}", user);
             log.info("response -------> {}", response);
             if (response.getStatusInfo().getFamily() != Response.Status.Family.SUCCESSFUL) {
-                throw new MealDashUserAdapterException(ErrorMessage.SOMETHING_WENT_WRONG);
+                throw new UserAdapterException(ErrorMessage.SOMETHING_WENT_WRONG);
             }
         }
     }
