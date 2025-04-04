@@ -3,7 +3,7 @@ package dash.meal.mealdash.infrastructure.adapter.output.persistence.user;
 import dash.meal.mealdash.application.output.UserOutputPort;
 import dash.meal.mealdash.domain.exception.MealDashException;
 import dash.meal.mealdash.domain.message.ErrorMessage;
-import dash.meal.mealdash.domain.exception.MealDashUserAdapterException;
+import dash.meal.mealdash.domain.exception.UserAdapterException;
 import dash.meal.mealdash.domain.model.MealDashUser;
 import dash.meal.mealdash.domain.validation.MealDashValidation;
 import dash.meal.mealdash.infrastructure.adapter.output.mapper.MealDashMapper;
@@ -26,7 +26,7 @@ public class MealDashUserAdapter implements UserOutputPort {
 
 
     @Override
-    public MealDashUser save(MealDashUser mealDashUser) throws MealDashUserAdapterException, MealDashException {
+    public MealDashUser save(MealDashUser mealDashUser) throws UserAdapterException, MealDashException {
         MealDashValidation.validateObjectInstance(mealDashUser, ErrorMessage.USER_CANNOT_BE_NULL);
         mealDashUser.validate();
 
@@ -38,7 +38,7 @@ public class MealDashUserAdapter implements UserOutputPort {
             if (existingUser.isPresent()) {
                 log.warn("User with email {} already exists with ID: {}",
                         mealDashUser.getEmail(), existingUser.get().getId());
-                throw new MealDashUserAdapterException(ErrorMessage.USER_ALREADY_EXIST);
+                throw new UserAdapterException(ErrorMessage.USER_ALREADY_EXIST);
             }
 
             log.info("User object before conversion: {}", mealDashUser);
@@ -54,40 +54,40 @@ public class MealDashUserAdapter implements UserOutputPort {
     }
 
     @Override
-    public MealDashUser findById(String id) throws MealDashUserAdapterException {
+    public MealDashUser findById(String id) throws UserAdapterException {
         return userRepository.findById(id)
                              .map(mealDashMapper::toUser)
-                             .orElseThrow(() -> new MealDashUserAdapterException(ErrorMessage.USER_NOT_FOUND));
+                             .orElseThrow(() -> new UserAdapterException(ErrorMessage.USER_NOT_FOUND));
     }
 
     @Override
-    public MealDashUser findByEmail(String email) throws MealDashUserAdapterException {
+    public MealDashUser findByEmail(String email) throws UserAdapterException {
         return userRepository.findByEmail(email)
                              .map(mealDashMapper::toUser)
-                             .orElseThrow(() -> new MealDashUserAdapterException(ErrorMessage.USER_NOT_FOUND));
+                             .orElseThrow(() -> new UserAdapterException(ErrorMessage.USER_NOT_FOUND));
 
     }
 
     @Override
-    public List<MealDashUser> findAll() throws MealDashUserAdapterException {
+    public List<MealDashUser> findAll() throws UserAdapterException {
        List<MealDashUser> mealDashUsers = userRepository.findAll()
                              .stream()
                              .map(mealDashMapper::toUser)
                              .collect(Collectors.toList());
 
-       if (mealDashUsers.isEmpty()) throw new MealDashUserAdapterException(ErrorMessage.NO_USERS_FOUND);
+       if (mealDashUsers.isEmpty()) throw new UserAdapterException(ErrorMessage.NO_USERS_FOUND);
        return mealDashUsers;
     }
 
     @Override
-    public void deleteById(String id) throws MealDashUserAdapterException {
+    public void deleteById(String id) throws UserAdapterException {
         log.info("Checking if user with ID {} exists", id);
 
         boolean exists = userRepository.existsById(id);
         log.info("User exists: {}", exists);
 
         if (!exists) {
-            throw new MealDashUserAdapterException(ErrorMessage.USER_NOT_FOUND);
+            throw new UserAdapterException(ErrorMessage.USER_NOT_FOUND);
         }
 
         log.info("Deleting user with ID: {}", id);
