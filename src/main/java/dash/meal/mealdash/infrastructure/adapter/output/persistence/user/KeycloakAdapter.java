@@ -10,6 +10,7 @@ import jakarta.ws.rs.core.Response;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.keycloak.admin.client.Keycloak;
+import org.keycloak.admin.client.resource.UserResource;
 import org.keycloak.representations.idm.ClientRepresentation;
 import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.RoleRepresentation;
@@ -46,7 +47,6 @@ public class KeycloakAdapter implements UserIdentityOutputPort {
         }
         UserRepresentation userRepresentation = mapper.toUserRepresentation(user);
         userRepresentation.setUsername(user.getEmail());
-        userRepresentation.setEnabled(true);
         completeSignup(user.getPassword(), user.getEmail(), user.getRole(), userRepresentation);
 
         return getUserByEmail(user.getEmail());
@@ -73,6 +73,24 @@ public class KeycloakAdapter implements UserIdentityOutputPort {
                 .realm(realm)
                 .users()
                 .delete(userId);
+    }
+
+    @Override
+    public void verifyEmail(String email) {
+        String id = instance
+                .realm(realm)
+                .users()
+                .search(email)
+                .get(0)
+                .getId();
+        UserResource resource = instance
+                .realm(realm)
+                .users()
+                .get(id);
+        UserRepresentation userRepresentation = resource.toRepresentation();
+        userRepresentation.setEmailVerified(true);
+        userRepresentation.setEnabled(true);
+        resource.update(userRepresentation);
     }
 
     private void completeSignup(String password, String email, UserRole role, UserRepresentation userRepresentation) throws UserAdapterException {
