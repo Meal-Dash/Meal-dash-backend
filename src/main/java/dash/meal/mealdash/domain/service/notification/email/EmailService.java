@@ -22,4 +22,9 @@ public class EmailService implements EmailUseCase {
         context.setVariable("user_code", otp.getToken());
         log.info(context.getVariable("user_code").toString());
     }
+
+    @Override
+    public String verifyEmail(String email) {
+        return "";
+    }
 }
