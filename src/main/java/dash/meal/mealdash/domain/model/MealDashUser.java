@@ -9,8 +9,11 @@ import lombok.*;
 
 import java.time.LocalDate;
 
+import static dash.meal.mealdash.domain.validation.MealDashValidation.*;
+
 @Setter
 @Getter
+@Builder
 public class MealDashUser {
     private String id;
 //    private Location currentLocation;
@@ -53,31 +56,4 @@ public class MealDashUser {
         validatePassword(this.getPassword());
     }
 
-
-    public void validateFirstName(String firstName) throws UserAdapterException {
-        if (firstName == null || firstName.isEmpty()) throw new UserAdapterException(ErrorMessage.FIRST_NAME_MUST_BE_PROVIDED);
-        if (!firstName.matches(RegexPattern.NAME_REGEX)) throw new UserAdapterException(ErrorMessage.INVALID_NAME_FORMAT);
-
-    }
-
-    public void validateLastName(String lastName) throws UserAdapterException {
-        if (lastName == null || lastName.isEmpty()) throw new UserAdapterException(ErrorMessage.LAST_NAME_MUST_BE_PROVIDED);
-        if (!lastName.matches(RegexPattern.NAME_REGEX)) throw new UserAdapterException(ErrorMessage.INVALID_NAME_FORMAT);
-
-    }
-
-    public void validateEmail(String email) throws UserAdapterException {
-        if (email == null || email.isEmpty()) throw new UserAdapterException(ErrorMessage.EMAIL_IS_REQUIRED);
-        if (!email.matches(RegexPattern.EMAIL_REGEX)) throw new UserAdapterException(ErrorMessage.INVALID_MAIL_FORMAT);
-    }
-
-    public void validatePassword(String password) throws UserAdapterException {
-        if (password ==  null || password.isEmpty()) throw new UserAdapterException(ErrorMessage.PASSWORD_IS_REQUIRED);
-        if (!password.matches(RegexPattern.PASSWORD_REGEX)) throw new UserAdapterException(ErrorMessage.PASSWORD_IS_INVALID);
-    }
-
-    public void validatePhoneNumber(String phoneNumber) throws UserAdapterException {
-        if (phoneNumber == null || phoneNumber.isEmpty()) throw new UserAdapterException(ErrorMessage.PHONE_NUMBER_IS_REQUIRED);
-        if (!phoneNumber.matches(RegexPattern.PHONE_NUMBER_REGEX)) throw new UserAdapterException(ErrorMessage.PHONE_NUMBER_IS_INVALID);
-    }
 }
