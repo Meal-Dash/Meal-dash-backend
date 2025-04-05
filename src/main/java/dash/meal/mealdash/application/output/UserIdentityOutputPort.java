@@ -9,4 +9,5 @@ public interface UserIdentityOutputPort {
     UserRepresentation saveUser(MealDashUser user) throws UserAdapterException;
     UserRepresentation getUserByEmail(String email) throws UserAdapterException;
     void deleteUser(String email);
+    void verifyEmail(String email);
 }
