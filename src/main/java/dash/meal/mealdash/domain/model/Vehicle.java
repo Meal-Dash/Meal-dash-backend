@@ -1,6 +1,8 @@
 package dash.meal.mealdash.domain.model;
 
 
+import dash.meal.mealdash.domain.enums.VehicleType;
+
 public class Vehicle {
     private String color;
     private String plateNumber;

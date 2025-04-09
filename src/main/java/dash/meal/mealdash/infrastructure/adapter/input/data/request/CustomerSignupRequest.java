@@ -1,9 +1,9 @@
 package dash.meal.mealdash.infrastructure.adapter.input.data.request;
 
 import dash.meal.mealdash.domain.message.ErrorMessage;
-import dash.meal.mealdash.domain.exception.RegexPattern;
+import dash.meal.mealdash.domain.validation.RegexPattern;
 import dash.meal.mealdash.domain.model.Location;
-import dash.meal.mealdash.domain.model.UserRole;
+import dash.meal.mealdash.domain.enums.UserRole;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;

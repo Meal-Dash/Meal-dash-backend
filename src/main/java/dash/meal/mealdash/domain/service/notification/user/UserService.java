@@ -7,7 +7,7 @@ import dash.meal.mealdash.application.output.UserIdentityOutputPort;
 import dash.meal.mealdash.application.output.UserOutputPort;
 import dash.meal.mealdash.domain.message.ErrorMessage;
 import dash.meal.mealdash.domain.exception.MealDashException;
-import dash.meal.mealdash.domain.exception.MealDashUserAdapterException;
+import dash.meal.mealdash.domain.exception.UserAdapterException;
 import dash.meal.mealdash.domain.exception.OtpAdapterException;
 import dash.meal.mealdash.domain.message.SuccessMessage;
 import dash.meal.mealdash.domain.model.MealDashUser;
@@ -30,7 +30,7 @@ public class UserService implements UserUseCase {
 
 
     @Override
-    public String signUp(MealDashUser user) throws MealDashException, MealDashUserAdapterException, OtpAdapterException {
+    public String signUp(MealDashUser user) throws MealDashException, UserAdapterException, OtpAdapterException {
         if (user == null) throw new MealDashException(ErrorMessage.INVALID_USER_DETAILS);
         user.validate();
         if (userOutputPort.existsByEmail(user.getEmail())) throw new MealDashException(ErrorMessage.USER_ALREADY_EXIST);

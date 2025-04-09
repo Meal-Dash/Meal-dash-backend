@@ -1,7 +1,7 @@
 package dash.meal.mealDashTestData;
 
 import dash.meal.mealdash.domain.model.MealDashUser;
-import dash.meal.mealdash.domain.model.UserRole;
+import dash.meal.mealdash.domain.enums.UserRole;
 
 public class TestData {
 

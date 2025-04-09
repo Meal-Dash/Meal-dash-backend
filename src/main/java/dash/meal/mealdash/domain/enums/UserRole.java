@@ -1,4 +1,4 @@
-package dash.meal.mealdash.domain.model;
+package dash.meal.mealdash.domain.enums;
 
 public enum UserRole {
     CUSTOMER,
