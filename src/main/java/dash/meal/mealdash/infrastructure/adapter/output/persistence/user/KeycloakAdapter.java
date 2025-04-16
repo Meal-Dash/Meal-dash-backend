@@ -75,14 +75,36 @@ public class KeycloakAdapter implements UserIdentityOutputPort {
                 .delete(userId);
     }
 
+//    @Override
+//    public void verifyEmail(String email) {
+//        String id = instance
+//                .realm(realm)
+//                .users()
+//                .search(email)
+//                .get(0)
+//                .getId();
+//        UserResource resource = instance
+//                .realm(realm)
+//                .users()
+//                .get(id);
+//        UserRepresentation userRepresentation = resource.toRepresentation();
+//        userRepresentation.setEmailVerified(true);
+//        userRepresentation.setEnabled(true);
+//        resource.update(userRepresentation);
+//    }
+
     @Override
     public void verifyEmail(String email) {
-        String id = instance
+        List<UserRepresentation> users = instance
                 .realm(realm)
                 .users()
-                .search(email)
-                .get(0)
-                .getId();
+                .search(email);
+
+        if (users.isEmpty()) {
+            throw new IllegalArgumentException("No user found with email: " + email);
+        }
+
+        String id = users.get(0).getId();
         UserResource resource = instance
                 .realm(realm)
                 .users()
@@ -92,6 +114,7 @@ public class KeycloakAdapter implements UserIdentityOutputPort {
         userRepresentation.setEnabled(true);
         resource.update(userRepresentation);
     }
+
 
     private void completeSignup(String password, String email, UserRole role, UserRepresentation userRepresentation) throws UserAdapterException {
         if (!Objects.equals(password, "")) setupPassword(password, userRepresentation);
