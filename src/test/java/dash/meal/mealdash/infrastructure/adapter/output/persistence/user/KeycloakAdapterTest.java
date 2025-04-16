@@ -1,5 +1,6 @@
 package dash.meal.mealdash.infrastructure.adapter.output.persistence.user;
 
+import dash.meal.mealDashTestData.TestData;
 import dash.meal.mealdash.domain.message.ErrorMessage;
 import dash.meal.mealdash.domain.exception.UserAdapterException;
 import dash.meal.mealdash.domain.model.MealDashUser;
@@ -30,14 +31,8 @@ class KeycloakAdapterTest {
 
     @BeforeEach
     void setUp() {
-        mealDashUser = MealDashUser.builder()
-                .password("pasSW123@")
-                .phoneNumber("09123456789")
-                .firstName("tester")
-                .lastName("test")
-                .email("tester@gmail.com")
-                .role(UserRole.CUSTOMER)
-                .build();
+        mealDashUser = TestData.buildTestUser("tester12@gmail.com");
+
     }
 
     @AfterAll
@@ -58,7 +53,6 @@ class KeycloakAdapterTest {
 
     @Test
     void KeycloakSignupThrowExceptionWhenUserExists() throws UserAdapterException {
-        keycloakAdapter.saveUser(mealDashUser);
         createdUsers.add(mealDashUser.getEmail());
 
         UserAdapterException exception = assertThrows(UserAdapterException.class, () -> keycloakAdapter.saveUser(mealDashUser));
@@ -68,6 +62,7 @@ class KeycloakAdapterTest {
     @Test
     void verifyEmail(){
         keycloakAdapter.verifyEmail(mealDashUser.getEmail());
+        assertEquals("tester@gmail.com", mealDashUser.getEmail());
 
 
     }
