@@ -14,8 +14,11 @@ import dash.meal.mealdash.domain.model.MealDashUser;
 import dash.meal.mealdash.domain.model.Otp;
 import dash.meal.mealdash.infrastructure.adapter.output.mapper.MealDashMapper;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.keycloak.representations.idm.UserRepresentation;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -26,6 +29,7 @@ public class UserService implements UserUseCase {
     private final UserIdentityOutputPort userIdentityOutputPort;
     private final MealDashMapper mealDashMapper;
     private final OtpUseCase otpUseCase;
+//    @Qualifier("mailgunEmailService")
     private final EmailUseCase emailUseCase;
 
 
