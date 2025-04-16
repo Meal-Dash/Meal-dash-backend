@@ -2,7 +2,6 @@ package dash.meal.mealdash.infrastructure.adapter.output.mapper;
 
 import dash.meal.mealdash.domain.model.MealDashUser;
 import dash.meal.mealdash.domain.model.Otp;
-import dash.meal.mealdash.infrastructure.adapter.input.data.request.CustomerSignupRequest;
 import dash.meal.mealdash.infrastructure.adapter.output.persistence.entity.MealDashEntity;
 import dash.meal.mealdash.infrastructure.adapter.output.persistence.entity.OtpEntity;
 import org.keycloak.representations.idm.UserRepresentation;
