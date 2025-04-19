@@ -2,14 +2,12 @@ package dash.meal.mealdash.domain.model;
 
 
 import dash.meal.mealdash.domain.enums.UserRole;
-import dash.meal.mealdash.domain.message.ErrorMessage;
 import dash.meal.mealdash.domain.exception.UserAdapterException;
-import dash.meal.mealdash.domain.validation.RegexPattern;
 import lombok.*;
 
 import java.time.LocalDate;
 
-import static dash.meal.mealdash.domain.validation.MealDashValidation.*;
+import static dash.meal.mealdash.domain.validation.MealDashValidator.*;
 
 @Setter
 @Getter
