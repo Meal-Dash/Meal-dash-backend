@@ -48,14 +48,14 @@ class MealDashUserAdapterTest {
 
 
     @Test
-    void saveUser() throws UserAdapterException, MealDashException {
+    void saveUser() throws MealDashException {
         MealDashUser savedMealDashUser = userOutputPort.save(mealDashUser);
         assertNotNull(savedMealDashUser);
         assertEquals(mealDashUser.getFirstName(), savedMealDashUser.getFirstName());
     }
 
     @Test
-    void saveUserThrowExceptionWhenUserAlreadyExist() throws UserAdapterException, MealDashException {
+    void saveUserThrowExceptionWhenUserAlreadyExist() throws MealDashException {
         userOutputPort.save(mealDashUser);
 
         UserAdapterException exception = assertThrows(UserAdapterException.class, () -> userOutputPort.save(mealDashUser));
@@ -230,7 +230,7 @@ class MealDashUserAdapterTest {
     }
 
     @Test
-    void findUserByEmail() throws UserAdapterException, MealDashException {
+    void findUserByEmail() throws MealDashException {
         userOutputPort.save(mealDashUser);
 
         MealDashUser foundMealDashUser = userOutputPort.findByEmail(mealDashUser.getEmail());
@@ -245,7 +245,7 @@ class MealDashUserAdapterTest {
     }
 
     @Test
-    void findById() throws UserAdapterException, MealDashException {
+    void findById() throws MealDashException {
         userOutputPort.save(mealDashUser);
 
         MealDashUser foundMealDashUser = userOutputPort.findById(mealDashUser.getId());
@@ -260,7 +260,7 @@ class MealDashUserAdapterTest {
     }
 
     @Test
-    void deleteUserById() throws UserAdapterException, MealDashException {
+    void deleteUserById() throws MealDashException {
         userOutputPort.save(mealDashUser);
         userOutputPort.deleteById(mealDashUser.getId());
 
@@ -278,7 +278,7 @@ class MealDashUserAdapterTest {
     }
 
     @Test
-    void findAllUsers() throws UserAdapterException, MealDashException {
+    void findAllUsers() throws MealDashException {
         userOutputPort.save(mealDashUser);
         List<MealDashUser> users = userOutputPort.findAll();
         log.info("All users found {}", users);
@@ -294,7 +294,7 @@ class MealDashUserAdapterTest {
     }
 
     @Test
-    void existsByEmailReturnsTrue() throws UserAdapterException, MealDashException {
+    void existsByEmailReturnsTrue() throws MealDashException {
         userOutputPort.save(mealDashUser);
 
         boolean result = userOutputPort.existsByEmail(mealDashUser.getEmail());
@@ -303,7 +303,7 @@ class MealDashUserAdapterTest {
     }
 
     @Test
-    void existsByEmailReturnsFalse() throws UserAdapterException, MealDashException {
+    void existsByEmailReturnsFalse() throws MealDashException {
         userOutputPort.save(mealDashUser);
 
         boolean result = userOutputPort.existsByEmail("mealDashUser.getEmail()");
