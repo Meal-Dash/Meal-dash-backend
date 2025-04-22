@@ -1,6 +1,7 @@
 package dash.meal.mealdash.infrastructure.adapter.input.data.request;
 
 import dash.meal.mealdash.domain.message.ErrorMessage;
+import dash.meal.mealdash.domain.model.Vehicle;
 import dash.meal.mealdash.domain.validation.RegexPattern;
 import dash.meal.mealdash.domain.model.Location;
 import dash.meal.mealdash.domain.enums.UserRole;
@@ -14,7 +15,7 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CustomerSignupRequest {
+public class SignupRequest {
     @NotBlank
     @Pattern(regexp = RegexPattern.NAME_REGEX, message = ErrorMessage.INVALID_NAME_FORMAT)
     private String firstName;
@@ -30,4 +31,5 @@ public class CustomerSignupRequest {
     private String phoneNumber;
     private Location deliveryAddress;
     private UserRole role;
+    private Vehicle vehicle;
 }

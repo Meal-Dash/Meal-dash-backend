@@ -5,7 +5,7 @@ import dash.meal.mealdash.domain.exception.MealDashException;
 import dash.meal.mealdash.domain.message.ErrorMessage;
 import dash.meal.mealdash.domain.exception.UserAdapterException;
 import dash.meal.mealdash.domain.model.MealDashUser;
-import dash.meal.mealdash.domain.validation.MealDashValidation;
+import dash.meal.mealdash.domain.validation.MealDashValidator;
 import dash.meal.mealdash.infrastructure.adapter.output.mapper.MealDashMapper;
 import dash.meal.mealdash.infrastructure.adapter.output.persistence.entity.MealDashEntity;
 import dash.meal.mealdash.infrastructure.adapter.output.persistence.repositories.UserRepository;
@@ -27,7 +27,7 @@ public class MealDashUserAdapter implements UserOutputPort {
 
     @Override
     public MealDashUser save(MealDashUser mealDashUser) throws UserAdapterException, MealDashException {
-        MealDashValidation.validateObjectInstance(mealDashUser, ErrorMessage.USER_CANNOT_BE_NULL);
+        MealDashValidator.validateObjectInstance(mealDashUser, ErrorMessage.USER_CANNOT_BE_NULL);
         mealDashUser.validate();
 
             log.info("Attempting to save user with ID: {} and email: {}",

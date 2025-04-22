@@ -2,25 +2,26 @@ package dash.meal.mealdash.domain.service.notification.email;
 
 import dash.meal.mealdash.application.input.email.EmailUseCase;
 import dash.meal.mealdash.domain.model.Otp;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 
+import java.time.LocalDate;
+
 @Service
 @Slf4j
-@RequiredArgsConstructor
-public class EmailService implements EmailUseCase {
+@AllArgsConstructor
+public class DevEmailService implements EmailUseCase {
 
     @Override
-    public void sendOtp(Otp otp, String userName) {
+    public void sendOtp(Otp otp, String username) {
         Context context = new Context();
-        context.setVariable("user_name", userName);
-        log.info(context.getVariable("user_name").toString());
-        context.setVariable("user_email", otp.getEmail());
-        log.info(context.getVariable("user_email").toString());
+        context.setVariable("user_name", username);
         context.setVariable("user_code", otp.getToken());
-        log.info(context.getVariable("user_code").toString());
+        context.setVariable("user_email", otp.getEmail());
+        context.setVariable("year", LocalDate.now().getYear());
+
     }
 
     @Override

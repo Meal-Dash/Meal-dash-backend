@@ -7,7 +7,7 @@ import dash.meal.mealdash.domain.model.MealDashUser;
 import java.util.List;
 
 public interface UserOutputPort {
-    MealDashUser save(MealDashUser mealDashUser) throws UserAdapterException, MealDashException;
+    MealDashUser save(MealDashUser mealDashUser) throws MealDashException;
     MealDashUser findById(String id) throws UserAdapterException;
     MealDashUser findByEmail(String email) throws UserAdapterException;
     List<MealDashUser> findAll() throws UserAdapterException;

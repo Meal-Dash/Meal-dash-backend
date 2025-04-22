@@ -5,7 +5,7 @@ import dash.meal.mealdash.domain.exception.MealDashException;
 import dash.meal.mealdash.domain.exception.UserAdapterException;
 import dash.meal.mealdash.domain.exception.OtpAdapterException;
 import dash.meal.mealdash.domain.model.MealDashUser;
-import dash.meal.mealdash.infrastructure.adapter.input.data.request.CustomerSignupRequest;
+import dash.meal.mealdash.infrastructure.adapter.input.data.request.SignupRequest;
 import dash.meal.mealdash.infrastructure.adapter.input.rest.mapper.UserRestMapper;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -25,8 +25,8 @@ public class UserController {
     private final UserRestMapper userRestMapper;
 
     @PostMapping("/signup")
-    public ResponseEntity<String> signUp(@RequestBody @Valid CustomerSignupRequest customerSignupRequest) throws MealDashException, OtpAdapterException, UserAdapterException {
-        MealDashUser user = userRestMapper.map(customerSignupRequest);
+    public ResponseEntity<String> signUp(@RequestBody @Valid SignupRequest signupRequest) throws MealDashException, OtpAdapterException {
+        MealDashUser user = userRestMapper.map(signupRequest);
         String response = userUseCase.signUp(user);
 
         return ResponseEntity.ok(response);

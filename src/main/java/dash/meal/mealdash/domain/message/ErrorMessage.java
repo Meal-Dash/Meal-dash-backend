@@ -20,4 +20,11 @@ public class ErrorMessage {
     public static final String OTP_EMAIL_IS_REQUIRED = "Email cannot be null or empty";
     public static final String OTP_ALREADY_EXIST = "Otp already exist";
     public static final String INVALID_USER_DETAILS = "User details cannot be empty.";
+    public static final String INVALID_REGISTRATION_DETAILS = "Invalid registration details";
+    public static final String INVALID_ROLE = "Role is required";
+    public static final String ACCOUNT_ALREADY_ENABLED = "Account already enabled";
+    public static final String ERROR_FETCHING_USER_INFORMATION = "Error fetching user information";
+    public static final String USER_DOES_NOT_EXIST = "User does not exist";
+    public static final String USER_PREVIOUSLY_VERIFIED = "User previously verified";
+    public static final String INVALID_EMAIL_OR_PASSWORD = "Invalid email or password";
 }
