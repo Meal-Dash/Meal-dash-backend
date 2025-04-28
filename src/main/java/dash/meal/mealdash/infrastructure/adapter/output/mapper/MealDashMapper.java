@@ -10,6 +10,7 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface MealDashMapper {
+    @Mapping(source = "role", target = "userRole")
     MealDashEntity toUserEntity(MealDashUser user);
 
     MealDashUser toUser(MealDashEntity savedMealDashEntity);
