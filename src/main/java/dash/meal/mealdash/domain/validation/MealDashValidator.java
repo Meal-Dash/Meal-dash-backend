@@ -5,6 +5,7 @@ import dash.meal.mealdash.domain.exception.UserAdapterException;
 import dash.meal.mealdash.domain.message.ErrorMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 
 @Slf4j
 public class MealDashValidator {
@@ -39,5 +40,16 @@ public class MealDashValidator {
     public static void validatePhoneNumber(String phoneNumber) throws UserAdapterException {
         if (phoneNumber == null || phoneNumber.isEmpty()) throw new UserAdapterException(ErrorMessage.PHONE_NUMBER_IS_REQUIRED);
         if (!phoneNumber.matches(RegexPattern.PHONE_NUMBER_REGEX)) throw new UserAdapterException(ErrorMessage.PHONE_NUMBER_IS_INVALID);
+    }
+
+    public static void validateDataElement(String dataElement, String message) throws MealDashException {
+        if (isEmptyString(dataElement)){
+            log.error(message);
+            throw new MealDashException(message);
+        }
+    }
+
+    private static boolean isEmptyString(String dataElement) {
+        return StringUtils.isEmpty(dataElement) || StringUtils.isBlank(dataElement);
     }
 }

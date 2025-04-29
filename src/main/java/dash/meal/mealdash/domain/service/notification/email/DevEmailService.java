@@ -4,6 +4,7 @@ import dash.meal.mealdash.application.input.email.EmailUseCase;
 import dash.meal.mealdash.domain.model.Otp;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 
@@ -12,6 +13,7 @@ import java.time.LocalDate;
 @Service
 @Slf4j
 @AllArgsConstructor
+@Profile("default")
 public class DevEmailService implements EmailUseCase {
 
     @Override

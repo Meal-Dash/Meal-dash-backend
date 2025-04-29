@@ -32,6 +32,7 @@ public class MealDashEntity {
     @ManyToOne
     private BankEntity bank;
     private boolean isIdentityVerified;
+    @Enumerated(EnumType.STRING)
     private UserRole userRole;
     @ManyToOne
     private VehicleEntity vehicle;

@@ -1,5 +1,6 @@
 package dash.meal.mealdash.domain.service.notification.email;
 
+import com.sendgrid.SendGrid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
