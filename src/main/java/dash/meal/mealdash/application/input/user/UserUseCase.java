@@ -6,5 +6,5 @@ import dash.meal.mealdash.domain.exception.OtpAdapterException;
 import dash.meal.mealdash.domain.model.MealDashUser;
 
 public interface UserUseCase {
-    String signUp(MealDashUser user) throws MealDashException, UserAdapterException, OtpAdapterException;
+    String signUp(MealDashUser user) throws MealDashException, OtpAdapterException;
 }

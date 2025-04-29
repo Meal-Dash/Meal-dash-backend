@@ -141,19 +141,19 @@ public class KeycloakAdapter implements UserIdentityOutputPort {
         foundMealDashUser.setNewPassword(password);
         log.info("User ID for user creating password : {}", foundMealDashUser.getId());
 
-        if (foundMealDashUser.isEmailVerified() && foundMealDashUser.isEnabled()){
-            log.error("User already verified, can not create new password for this user {}", foundMealDashUser.getEmail());
-            throw new MealDashException(ErrorMessage.USER_PREVIOUSLY_VERIFIED);
-        }
+//        if (foundMealDashUser.isEmailVerified() && foundMealDashUser.isEnabled()){
+//            log.error("User already verified, can not create new password for this user {}", foundMealDashUser.getEmail());
+//            throw new MealDashException(ErrorMessage.USER_PREVIOUSLY_VERIFIED);
+//        }
 
-        foundMealDashUser = enableUserAccount(foundMealDashUser);
+//        foundMealDashUser = enableUserAccount(foundMealDashUser);
         setPassword(foundMealDashUser);
         foundMealDashUser.setPassword(password);
         foundMealDashUser.setEmail(email);
 
-        AccessTokenResponse response = login(foundMealDashUser);
-        foundMealDashUser.setAccessToken(response.getToken());
-        foundMealDashUser.setRefreshToken(response.getRefreshToken());
+//        AccessTokenResponse response = login(foundMealDashUser);
+//        foundMealDashUser.setAccessToken(response.getToken());
+//        foundMealDashUser.setRefreshToken(response.getRefreshToken());
         return foundMealDashUser;
     }
 
@@ -246,20 +246,6 @@ public class KeycloakAdapter implements UserIdentityOutputPort {
                 .users()
                 .get(user.getId());
     }
-
-//    @Override
-//    public UserRepresentation getUserRepresentation(MealDashUser user, Boolean exactMatch) throws MealDashException {
-//        MealDashValidator.validateObjectInstance(user, ErrorMessage.USER_CANNOT_BE_NULL);
-//        MealDashValidator.validateEmail(user.getEmail());
-//
-//        return keycloak
-//                .realm(REALM)
-//                .users()
-//                .search(user.getEmail(), exactMatch)
-//                .stream()
-//                .findFirst()
-//                .orElseThrow(() -> new MealDashException(ErrorMessage.USER_NOT_FOUND));
-//    }
 
     private void validateMealDashUserDetails(MealDashUser user) throws MealDashException {
         MealDashValidator.validateObjectInstance(user, ErrorMessage.USER_CANNOT_BE_NULL);

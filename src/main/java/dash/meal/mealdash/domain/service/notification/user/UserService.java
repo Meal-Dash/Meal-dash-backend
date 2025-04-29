@@ -25,7 +25,6 @@ public class UserService implements UserUseCase {
     private final UserIdentityOutputPort userIdentityOutputPort;
     private final MealDashMapper mealDashMapper;
     private final OtpUseCase otpUseCase;
-//    @Qualifier("mailgunEmailService")
     private final EmailUseCase emailUseCase;
 
 
@@ -45,7 +44,7 @@ public class UserService implements UserUseCase {
         MealDashUser mealDashUser = userOutputPort.save(user);
         log.info("user saved with id: {}", mealDashUser.getId());
 
-        emailUseCase.sendOtp(otp, user.getFirstName());
+        emailUseCase.sendOtp(otp, user.getEmail());
         log.info("OTP sent to: {}", user.getEmail());
 
         return SuccessMessage.SUCCESSFUL_REGISTRATION;

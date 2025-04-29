@@ -1,9 +1,7 @@
 package dash.meal.mealdash.infrastructure.adapter.input.data.request;
 
 import dash.meal.mealdash.domain.message.ErrorMessage;
-import dash.meal.mealdash.domain.model.Vehicle;
 import dash.meal.mealdash.domain.validation.RegexPattern;
-import dash.meal.mealdash.domain.model.Location;
 import dash.meal.mealdash.domain.enums.UserRole;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -29,7 +27,5 @@ public class SignupRequest {
     @Pattern(regexp = RegexPattern.PASSWORD_REGEX, message = ErrorMessage.PASSWORD_IS_INVALID)
     private String password;
     private String phoneNumber;
-    private Location deliveryAddress;
     private UserRole role;
-    private Vehicle vehicle;
 }
