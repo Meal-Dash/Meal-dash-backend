@@ -1,6 +1,6 @@
 package dash.meal.mealdash.infrastructure.adapter.output.persistence.user;
 
-import dash.meal.mealdash.application.output.OtpOutputPort;
+import dash.meal.mealdash.application.output.user.OtpOutputPort;
 import dash.meal.mealdash.domain.exception.OtpAdapterException;
 import dash.meal.mealdash.domain.message.ErrorMessage;
 import dash.meal.mealdash.domain.model.Otp;
