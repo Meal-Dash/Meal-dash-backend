@@ -68,28 +68,5 @@ public class SendGridEmailService implements EmailUseCase {
     public String verifyEmail(String email) {
         return "";
     }
-//    public static void main(String[] args) throws IOException {
-//        String SENDGRID_API_KEY = "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";
-//
-//        Email from = new Email("joy@semicolon.africa");
-//        String subject = "Sending with SendGrid is Fun";
-//        Email to = new Email("udeme5017@gmail.com");
-//        Content content = new Content("text/plain", "and easy to do anywhere, even with Java");
-//        Mail mail = new Mail(from, subject, to, content);
-//
-//        SendGrid sg = new SendGrid(SENDGRID_API_KEY);
-//        Request request = new Request();
-//        try {
-//            request.setMethod(Method.POST);
-//            request.setEndpoint("mail/send");
-//            request.setBody(mail.build());
-//            Response response = sg.api(request);
-//            System.out.println(response.getStatusCode());
-//            System.out.println(response.getBody());
-//            System.out.println(response.getHeaders());
-//        } catch (IOException ex) {
-//            throw ex;
-//        }
-//    }
     }
 
