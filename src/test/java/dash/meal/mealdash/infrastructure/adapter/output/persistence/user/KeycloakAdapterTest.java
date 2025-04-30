@@ -1,7 +1,8 @@
 package dash.meal.mealdash.infrastructure.adapter.output.persistence.user;
 
 import dash.meal.mealDashTestData.TestData;
-import dash.meal.mealdash.application.output.UserIdentityOutputPort;
+import dash.meal.mealDashTestData.TestUtils;
+import dash.meal.mealdash.application.output.user.UserIdentityOutputPort;
 import dash.meal.mealdash.domain.exception.MealDashException;
 import dash.meal.mealdash.domain.message.ErrorMessage;
 import dash.meal.mealdash.domain.model.MealDashUser;
@@ -36,7 +37,9 @@ class KeycloakAdapterTest {
 
     @BeforeEach
     void setUp() {
-        mealDashUser = TestData.buildTestUser("tester12@gmail.com");
+        String generatedEmail = TestUtils.generateEmail(5);
+        log.info("Generated email for test {}",generatedEmail);
+        mealDashUser = TestData.buildTestUser(generatedEmail);
 
     }
 

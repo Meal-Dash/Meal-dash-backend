@@ -1,7 +1,7 @@
 package dash.meal.mealdash.infrastructure.adapter.output.persistence.user;
 
 import dash.meal.mealDashTestData.TestData;
-import dash.meal.mealdash.application.output.UserOutputPort;
+import dash.meal.mealdash.application.output.user.UserOutputPort;
 import dash.meal.mealdash.domain.exception.MealDashException;
 import dash.meal.mealdash.domain.message.ErrorMessage;
 import dash.meal.mealdash.domain.exception.UserAdapterException;

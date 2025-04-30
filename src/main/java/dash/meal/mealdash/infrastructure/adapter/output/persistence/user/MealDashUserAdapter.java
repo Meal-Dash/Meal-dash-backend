@@ -1,6 +1,6 @@
 package dash.meal.mealdash.infrastructure.adapter.output.persistence.user;
 
-import dash.meal.mealdash.application.output.UserOutputPort;
+import dash.meal.mealdash.application.output.user.UserOutputPort;
 import dash.meal.mealdash.domain.exception.MealDashException;
 import dash.meal.mealdash.domain.message.ErrorMessage;
 import dash.meal.mealdash.domain.exception.UserAdapterException;
@@ -14,7 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
@@ -26,7 +25,7 @@ public class MealDashUserAdapter implements UserOutputPort {
 
 
     @Override
-    public MealDashUser save(MealDashUser mealDashUser) throws UserAdapterException, MealDashException {
+    public MealDashUser save(MealDashUser mealDashUser) throws MealDashException {
         MealDashValidator.validateObjectInstance(mealDashUser, ErrorMessage.USER_CANNOT_BE_NULL);
         mealDashUser.validate();
 
@@ -34,17 +33,16 @@ public class MealDashUserAdapter implements UserOutputPort {
                     mealDashUser.getId(), mealDashUser.getEmail());
 
 
-            Optional<MealDashEntity> existingUser = userRepository.findByEmail(mealDashUser.getEmail());
-            if (existingUser.isPresent()) {
-                log.warn("User with email {} already exists with ID: {}",
-                        mealDashUser.getEmail(), existingUser.get().getId());
+            boolean isExistingUser = userRepository.existsByEmail(mealDashUser.getEmail());
+            if (isExistingUser) {
+                log.warn("User with email {} ", mealDashUser.getEmail());
                 throw new UserAdapterException(ErrorMessage.USER_ALREADY_EXIST);
             }
 
             log.info("User object before conversion: {}", mealDashUser);
 
             MealDashEntity mealDashEntity = mealDashMapper.toUserEntity(mealDashUser);
-            log.info("Entity object before save: {}", mealDashEntity.toString());
+            log.info("Entity object before save: {}", mealDashEntity);
 
             MealDashEntity savedMealDashEntity = userRepository.save(mealDashEntity);
             log.info("Entity saved with ID: {}", savedMealDashEntity.getId());

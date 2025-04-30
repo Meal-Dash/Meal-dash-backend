@@ -1,7 +1,7 @@
 package dash.meal.mealdash.domain.service.notification.otp;
 
 import dash.meal.mealdash.application.input.otp.OtpUseCase;
-import dash.meal.mealdash.application.output.OtpOutputPort;
+import dash.meal.mealdash.application.output.user.OtpOutputPort;
 import dash.meal.mealdash.domain.exception.OtpAdapterException;
 import dash.meal.mealdash.domain.model.Otp;
 import dash.meal.mealdash.infrastructure.adapter.output.mapper.MealDashMapper;
