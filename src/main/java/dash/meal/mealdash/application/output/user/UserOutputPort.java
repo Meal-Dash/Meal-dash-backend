@@ -1,4 +1,4 @@
-package dash.meal.mealdash.application.output;
+package dash.meal.mealdash.application.output.user;
 
 import dash.meal.mealdash.domain.exception.MealDashException;
 import dash.meal.mealdash.domain.exception.UserAdapterException;

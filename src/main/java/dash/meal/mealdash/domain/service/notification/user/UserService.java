@@ -3,8 +3,8 @@ package dash.meal.mealdash.domain.service.notification.user;
 import dash.meal.mealdash.application.input.email.EmailUseCase;
 import dash.meal.mealdash.application.input.otp.OtpUseCase;
 import dash.meal.mealdash.application.input.user.UserUseCase;
-import dash.meal.mealdash.application.output.UserIdentityOutputPort;
-import dash.meal.mealdash.application.output.UserOutputPort;
+import dash.meal.mealdash.application.output.user.UserIdentityOutputPort;
+import dash.meal.mealdash.application.output.user.UserOutputPort;
 import dash.meal.mealdash.domain.message.ErrorMessage;
 import dash.meal.mealdash.domain.exception.MealDashException;
 import dash.meal.mealdash.domain.exception.OtpAdapterException;
@@ -36,7 +36,7 @@ public class UserService implements UserUseCase {
 
         Otp otp = otpUseCase.generateOtp(user.getEmail());
         log.info("OTP {}",otp);
-        log.info("OTP: {} generated for user: {}", otp.getToken(), user.getEmail());
+        log.info("OTP: {} generated for user: {}", otp.getToken(), user);
 
         user = userIdentityOutputPort.createUser(user);
         log.info("keycloak signed up user {}", user);

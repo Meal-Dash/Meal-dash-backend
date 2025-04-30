@@ -3,10 +3,9 @@ package dash.meal.mealdash.services;
 import dash.meal.mealDashTestData.TestData;
 import dash.meal.mealdash.application.input.email.EmailUseCase;
 import dash.meal.mealdash.application.input.otp.OtpUseCase;
-import dash.meal.mealdash.application.output.UserIdentityOutputPort;
-import dash.meal.mealdash.application.output.UserOutputPort;
+import dash.meal.mealdash.application.output.user.UserIdentityOutputPort;
+import dash.meal.mealdash.application.output.user.UserOutputPort;
 import dash.meal.mealdash.domain.exception.MealDashException;
-import dash.meal.mealdash.domain.exception.UserAdapterException;
 import dash.meal.mealdash.domain.exception.OtpAdapterException;
 import dash.meal.mealdash.domain.message.ErrorMessage;
 import dash.meal.mealdash.domain.message.SuccessMessage;
@@ -17,7 +16,6 @@ import dash.meal.mealdash.infrastructure.adapter.output.mapper.MealDashMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.keycloak.representations.idm.UserRepresentation;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -83,4 +81,5 @@ public class UserServiceTest {
         MealDashException mealDashException = assertThrows(MealDashException.class, ()-> userService.signUp(user));
         assertEquals(ErrorMessage.USER_ALREADY_EXIST, mealDashException.getMessage());
     }
+
 }
