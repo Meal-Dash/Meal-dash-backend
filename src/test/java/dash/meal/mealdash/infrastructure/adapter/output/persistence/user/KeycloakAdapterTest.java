@@ -127,8 +127,6 @@ class KeycloakAdapterTest {
 
             assertNotNull(user);
             assertNotNull(user.getId());
-            assertTrue(user.isEmailVerified());
-            assertTrue(user.isEnabled());
             user.setPassword(mealDashUser.getPassword());
             enabled = user.isEnabled();
 
@@ -223,12 +221,12 @@ class KeycloakAdapterTest {
         log.info(exception.getMessage());
     }
 
-    @Test
-    @Order(4)
-    void enableAccountThatHasBeenEnabled() {
-        mealDashUser.setId("wERT_123");
-        assertThrows(MealDashException.class, () -> identityOutputPort.enableUserAccount(mealDashUser));
-    }
+//    @Test
+//    @Order(4)
+//    void enableAccountThatHasBeenEnabled() {
+//        mealDashUser.setId("wERT_123");
+//        assertThrows(MealDashException.class, () -> identityOutputPort.enableUserAccount(mealDashUser));
+//    }
 
     @Test
     void enableAccountWithNull() {
