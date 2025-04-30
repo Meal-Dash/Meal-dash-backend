@@ -18,6 +18,9 @@ public class RestaurantAdapterTest {
     void onboardRestaurantSuccessful(){
         Restaurant savedRestaurant = restaurantOutputPort.save(restaurant);
         assertNotNull(savedRestaurant);
+        assertNotNull(savedRestaurant);
+
+
 //        assertEquals();
     }
 }
