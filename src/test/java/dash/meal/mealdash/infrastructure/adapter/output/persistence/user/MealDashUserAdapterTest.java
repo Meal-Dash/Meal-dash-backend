@@ -63,7 +63,7 @@ class MealDashUserAdapterTest {
     }
 
     @Test
-    void saveUser_throwExceptionWhenUserIsNull(){
+    void saveUserThrowExceptionWhenUserIsNull(){
         MealDashException exception = assertThrows(MealDashException.class, () -> userOutputPort.save(null));
         assertEquals(ErrorMessage.USER_CANNOT_BE_NULL, exception.getMessage());
     }
