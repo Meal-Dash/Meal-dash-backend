@@ -54,7 +54,7 @@ public class UserServiceTest {
     }
 
     @Test
-    void testSignup_successful() throws OtpAdapterException, MealDashException {
+    void signup() throws OtpAdapterException, MealDashException {
 
         Otp otp = Otp.builder()
                 .token("123543")
@@ -74,7 +74,7 @@ public class UserServiceTest {
     }
 
     @Test
-    void testSignup_throwExceptionWhenUserExist(){
+    void signupAndThrowExceptionWhenUserExist(){
 
         when(userOutputPort.existsByEmail(user.getEmail())).thenReturn(true);
 
