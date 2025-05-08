@@ -17,6 +17,9 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+
 @Service
 @AllArgsConstructor
 @Slf4j
@@ -49,4 +52,21 @@ public class UserService implements UserUseCase {
 
         return SuccessMessage.SUCCESSFUL_REGISTRATION;
     }
+
+    @Override
+    public String verifyEmail(MealDashUser user) throws MealDashException {
+        Otp otp = otpUseCase.findByEmailAndToken(user.getEmail() + user.getToken());
+        if (LocalDateTime.now(ZoneOffset.UTC).minusMinutes(5).isAfter(otp.getCreatedAt())) throw new MealDashException(ErrorMessage.OTP_EXPIRED_OR_INVALID);
+        MealDashUser foundUser = userOutputPort.findByEmail(otp.getEmail());
+         if (foundUser == null) throw new MealDashException(ErrorMessage.USER_NOT_FOUND);
+         otpUseCase.deleteOtp(otp);
+         foundUser.setEmailVerified(true);
+         foundUser.setEnabled(true);
+         userIdentityOutputPort.enableUserAccount(foundUser);
+
+         userOutputPort.save(foundUser);
+        return SuccessMessage.EMAIL_VERIFIED_SUCCESSFULLY;
+    }
+
+
 }
