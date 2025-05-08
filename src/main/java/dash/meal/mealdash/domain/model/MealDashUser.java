@@ -12,6 +12,8 @@ import static dash.meal.mealdash.domain.validation.MealDashValidator.*;
 @Setter
 @Getter
 @Builder
+@RequiredArgsConstructor
+@AllArgsConstructor
 public class MealDashUser {
     private String id;
 //    private Location currentLocation;
@@ -44,6 +46,7 @@ public class MealDashUser {
     private String accessToken;
     private String refreshToken;
     private String newPassword;
+    private String token;
 
 
     public void validate() throws UserAdapterException {
