@@ -30,10 +30,10 @@ public class OtpAdapter implements OtpOutputPort {
         return mealDashMapper.toOtp(savedOtpEntity);
     }
 
-
-    public Optional<Otp> findByEmail(String email) throws OtpAdapterException {
-        return Optional.of(otpRepository.findByEmail(email).map(mealDashMapper::toOtp)
-                .orElseThrow(() -> new OtpAdapterException(ErrorMessage.OTP_NOT_FOUND)));
+    @Override
+    public Otp findByEmail(String email) throws OtpAdapterException {
+        OtpEntity otpEntity = otpRepository.findByEmail(email).orElseThrow(() -> new OtpAdapterException(ErrorMessage.OTP_NOT_FOUND));
+        return mealDashMapper.toOtp(otpEntity);
     }
 
 
@@ -41,5 +41,16 @@ public class OtpAdapter implements OtpOutputPort {
     public void delete(Otp otp) throws OtpAdapterException {
         if (otp == null) throw new OtpAdapterException(ErrorMessage.OTP_NOT_FOUND);
         otpRepository.delete(mealDashMapper.toOtpEntity(otp));
+    }
+
+    @Override
+    public void deleteAll() {
+        otpRepository.deleteAll();
+    }
+
+    @Override
+    public Optional<Otp> findByEmailTokenIgnoreCase(String email) throws OtpAdapterException {
+        return Optional.of(otpRepository.findByEmailTokenIgnoreCase(email).map(mealDashMapper::toOtp)
+                .orElseThrow(() -> new OtpAdapterException(ErrorMessage.OTP_NOT_FOUND)));
     }
 }
