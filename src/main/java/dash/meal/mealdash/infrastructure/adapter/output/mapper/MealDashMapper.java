@@ -11,12 +11,16 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface MealDashMapper {
     @Mapping(source = "role", target = "userRole")
+    @Mapping(source = "emailVerified", target = "emailVerified")
+    @Mapping(source = "enabled", target = "enabled")
     MealDashEntity toUserEntity(MealDashUser user);
 
     MealDashUser toUser(MealDashEntity savedMealDashEntity);
 
+    @Mapping(source = "emailToken", target = "emailToken")
     OtpEntity toOtpEntity(Otp otp);
 
+    @Mapping(source = "emailToken", target = "emailToken")
     Otp toOtp(OtpEntity savedOtpEntity);
 
 
