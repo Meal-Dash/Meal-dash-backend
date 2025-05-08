@@ -64,9 +64,5 @@ public class SendGridEmailService implements EmailUseCase {
                 "Mealdash Verification code", context);
     }
 
-    @Override
-    public String verifyEmail(String email) {
-        return "";
-    }
     }
 
