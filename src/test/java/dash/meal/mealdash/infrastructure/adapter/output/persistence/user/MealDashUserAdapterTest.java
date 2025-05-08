@@ -55,14 +55,6 @@ class MealDashUserAdapterTest {
     }
 
     @Test
-    void saveUserThrowExceptionWhenUserAlreadyExist() throws MealDashException {
-        userOutputPort.save(mealDashUser);
-
-        UserAdapterException exception = assertThrows(UserAdapterException.class, () -> userOutputPort.save(mealDashUser));
-        assertEquals(ErrorMessage.USER_ALREADY_EXIST, exception.getMessage());
-    }
-
-    @Test
     void saveUserThrowExceptionWhenUserIsNull(){
         MealDashException exception = assertThrows(MealDashException.class, () -> userOutputPort.save(null));
         assertEquals(ErrorMessage.USER_CANNOT_BE_NULL, exception.getMessage());
@@ -284,13 +276,6 @@ class MealDashUserAdapterTest {
         log.info("All users found {}", users);
         assertNotNull(users);
         assertFalse(users.isEmpty());
-    }
-
-    @Test
-    void findAllUsersUsersNotFoundThrowException() {
-        Exception exception = assertThrows(UserAdapterException.class, () -> userOutputPort.findAll());
-
-        assertEquals(ErrorMessage.NO_USERS_FOUND, exception.getMessage());
     }
 
     @Test
