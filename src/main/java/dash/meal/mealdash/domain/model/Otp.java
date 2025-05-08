@@ -2,9 +2,7 @@ package dash.meal.mealdash.domain.model;
 
 import dash.meal.mealdash.domain.message.ErrorMessage;
 import dash.meal.mealdash.domain.exception.OtpAdapterException;
-import jakarta.persistence.Id;
 import lombok.*;
-import org.hibernate.annotations.UuidGenerator;
 
 import java.time.LocalDateTime;
 
@@ -20,12 +18,21 @@ public class Otp {
 
     private String email;
 
+    private String emailToken;
+
     private LocalDateTime createdAt;
 
     public Otp(String token, String email, LocalDateTime createdAt) {
         this.token = token;
         this.email = email;
         this.createdAt = createdAt;
+    }
+
+    public Otp(String token, String email, LocalDateTime createdAt, String emailToken) {
+            this.token = token;
+            this.email = email;
+            this.createdAt = createdAt;
+            this.emailToken = emailToken;
     }
 
     public void validations() throws OtpAdapterException {
