@@ -26,8 +26,4 @@ public class DevEmailService implements EmailUseCase {
 
     }
 
-    @Override
-    public String verifyEmail(String email) {
-        return "";
-    }
 }
