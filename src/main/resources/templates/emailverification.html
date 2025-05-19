@@ -1,0 +1,185 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th ="http://www.thymeleaf.org">
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+    <title></title>
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=IBM+Plex+Serif:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <meta name="x-apple-disable-message-reformatting">
+</head>
+<style>
+    #responsiveDiv {
+        margin-top: 80px;
+        height: 28px;
+        background: #095AD3;
+        flex-shrink: 0;
+        width: 100%;
+        box-sizing: border-box;
+        padding: 0;
+    }
+    @media (min-width: 769px) {
+        #responsiveDiv {
+            width: 100%;
+        }
+    }
+    #otpInput{
+
+    }
+</style>
+<body style="margin: 0; padding: 10px; background-color: #F8FAFD; font-family: 'DM Sans';">
+<div id="responsiveDiv"></div>
+<table
+        align="center"
+        border="0"
+        cellpadding="0"
+        cellspacing="0"
+        role="presentation"
+        style="border-collapse:collapse; margin: auto"
+>
+    <tr>
+        <td  style="padding-top: 20px;">
+            <img alt="socialIcons"
+                 src="https://res.cloudinary.com/enum-africa/image/upload/v1714387049/Enum_Logo_Blue-removebg-preview_2_pvyza8.png"
+                 style="position:relative; margin-top:8px; "/>
+        </td>
+    </tr>
+    <tr>
+        <td
+                align="center"
+                style=""
+        >
+            <table
+                    border="0"
+                    cellpadding="0"
+                    cellspacing="0"
+                    style="border-collapse: collapse; background-color: #fff"
+                    width="100%"
+            >
+
+                <tr>
+                    <td align="center">
+                        <img alt="icon"
+                             src="https://res.cloudinary.com/enum-africa/image/upload/v1695974585/verify_vlegy9.png"
+                             style="margin-bottom: 5px; margin-top: 10px"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="center" style=" font-family: 'DM Sans'; ">
+                        <p
+                                style="margin: 0; font-style: normal; font-weight: 600;
+                            font-size: 18px; letter-spacing:  -0.414px;
+                            line-height: 27px; color: #475467; font-family: 'DM Sans';"
+                        >
+                            Verify Email
+                        </p>
+                    </td>
+                </tr>
+
+
+
+                <tr>
+                    <td
+                            style="padding: 20px 20px 20px 40px; max-width: 350px; color: #344054"
+                    >
+                        <p style="padding-bottom: 24px; margin: 0; font-size: 16px; line-height: 24px">
+                            Hi <span th:text="${user_name}"></span>,
+
+                        </p>
+                        <p style="padding-bottom: 10px; margin: 0; font-size: 16px; font-weight: 400; line-height: 24px">
+                            This is your verification code:<br/>
+                        </p>
+                        <div >
+                            <span id="otpInput" style="width: 40px; height: 40px; font-size: 48px; font-weight: 500; line-height: 60px; letter-spacing: 16px; color:#095AD3;" th:text="${user_code}"></span>
+                        </div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td
+                            style="padding: 5px 20px 20px 40px; max-width: 350px; color: #344054"
+                    >
+                        <p style="padding-bottom: 20px; margin: 0; font-size: 16px; font-weight: 400; line-height: 24px">
+                            This code will only be valid for the next 24 hours.
+                        </p>
+                        <!--              If you cannot-->
+                        <!--              see the code, click the verify email button below-->
+                        <!--            </p>-->
+                        <!--            <a th:href="@{https://systest-app.enum.africa/verification/sign(email=${user_email})}"  style="text-decoration: none;color: white;" target="_blank">-->
+                        <!--              <button-->
+                        <!--                      style="border: none;-->
+                        <!--                  color: white;-->
+                        <!--                  padding: 10px 18px;-->
+                        <!--                  text-align: center;-->
+                        <!--                  text-decoration: none;-->
+                        <!--                  font-size: 16px;-->
+                        <!--                  font-family: 'DM Sans';-->
+                        <!--                  font-weight: 700;-->
+                        <!--                  margin: 4px 2px;-->
+                        <!--                  background-color: #095AD3;-->
+                        <!--                  border-radius: 4px;-->
+                        <!--                  cursor: pointer;"-->
+                        <!--              >-->
+                        <!--                <span style="white-space: nowrap">Verify email</span>-->
+                        <!--              </button>-->
+                        <!--            </a>-->
+
+                        <p style=" font-size: 16px; line-height: 24px; margin-bottom: 0">
+                            Regards,
+                            <br>
+                            Enum Team
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td
+                            align="center"
+                            style="padding: 0 20px 0 40px; font-size: 14px; line-height: 20px; color: #FFF2C7;"
+                    >
+                        <a href="https://twitter.com/enum_africa" target="_blank">
+                            <img
+                                    alt="twitterPage"
+                                    border="0"
+                                    src="https://res.cloudinary.com/enum-africa/image/upload/v1696001338/Twitter_X_New_aanevb.png"
+                                    style="width: 20px; margin-right: 0.8em;"
+                            /></a>
+
+                        <a href="https://facebook.com/enum_africa" target="_blank">
+                            <img
+                                    alt="facebookPage"
+                                    border="0"
+                                    src="https://res.cloudinary.com/enum-africa/image/upload/v1696001513/Social_icon_kpna9c.png"
+                                    style="width: 20px; margin-right: 0.8em;"
+                            /></a>
+
+                        <a href="https://www.instagram.com/enum_africa/?hl=en" target="_blank">
+                            <img
+                                    alt="instagramPage"
+                                    border="0"
+                                    src="https://res.cloudinary.com/enum-africa/image/upload/v1696001679/insta_ikhy0m.png"
+                                    style="width: 20px; margin-right: 0.8em;"
+                            /></a>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td
+                            align="center"
+                            style="padding-bottom: 30px; max-width: 350px; color: #475467">
+
+                        © <span th:text="${year}"></span> Enum Africa<br/>
+                        312, Herbert Macaulay way Sabo Yaba, Lagos
+                        </p>
+
+                    </td>
+                </tr>
+
+            </table>
+        </td>
+    </tr>
+</table>
+</body>
+</html>
