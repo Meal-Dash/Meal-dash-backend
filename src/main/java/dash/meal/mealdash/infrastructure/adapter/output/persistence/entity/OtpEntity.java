@@ -28,9 +28,13 @@ public class OtpEntity {
 
     private LocalDateTime createdAt = LocalDateTime.now(ZoneOffset.UTC);
 
-    public OtpEntity(String token, String email, LocalDateTime createdAt) {
+    public OtpEntity(String token, String email, LocalDateTime createdAt, String emailToken) {
         this.token = token;
         this.email = email;
         this.createdAt = createdAt;
+        this.emailToken = emailToken;
     }
+
+//    public OtpEntity(String otpToken, String email, LocalDateTime now, String s) {
+//    }
 }

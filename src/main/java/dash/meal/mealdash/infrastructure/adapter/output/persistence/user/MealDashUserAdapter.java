@@ -11,6 +11,7 @@ import dash.meal.mealdash.infrastructure.adapter.output.persistence.entity.MealD
 import dash.meal.mealdash.infrastructure.adapter.output.persistence.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -29,15 +30,12 @@ public class MealDashUserAdapter implements UserOutputPort {
         MealDashValidator.validateObjectInstance(mealDashUser, ErrorMessage.USER_CANNOT_BE_NULL);
         mealDashUser.validate();
 
-            log.info("Attempting to save user with ID: {} and email: {}",
-                    mealDashUser.getId(), mealDashUser.getEmail());
+        if (ObjectUtils.isEmpty(mealDashUser.getId()) &&
+                userRepository.existsByEmail(mealDashUser.getEmail())) {
+            throw new UserAdapterException(ErrorMessage.EMAIL_ALREADY_EXIST);
+        }
 
-
-            boolean isExistingUser = userRepository.existsByEmail(mealDashUser.getEmail());
-            if (isExistingUser) {
-                log.warn("User with email {} ", mealDashUser.getEmail());
-                throw new UserAdapterException(ErrorMessage.USER_ALREADY_EXIST);
-            }
+          log.info("Attempting to save user with ID: {} and email: {}", mealDashUser.getId(), mealDashUser.getEmail());
 
             log.info("User object before conversion: {}", mealDashUser);
 

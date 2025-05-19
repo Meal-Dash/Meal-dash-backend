@@ -41,7 +41,7 @@ public class OtpServiceTest {
     @Test
     void generateOtp() throws OtpAdapterException {
         when(otpOutputPort.save(otp)).thenReturn(new Otp());
-        when(otpOutputPort.findByEmail(otp.getEmail())).thenReturn(Optional.of(otp));
+        when(otpOutputPort.findByEmail(otp.getEmail())).thenReturn(otp);
 
         Otp response = otpService.generateOtp(otp.getEmail());
         assertNotNull(response);

@@ -27,6 +27,8 @@ public class MealDashEntity {
     private String gender;
     private String phoneNumber;
     private String nextKinNumber;
+    private boolean emailVerified;
+    private boolean enabled;
     @OneToOne
     private GuarantorEntity guarantor;
     @ManyToOne

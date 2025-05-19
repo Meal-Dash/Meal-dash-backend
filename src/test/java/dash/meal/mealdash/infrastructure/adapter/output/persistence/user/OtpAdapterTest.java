@@ -1,5 +1,6 @@
 package dash.meal.mealdash.infrastructure.adapter.output.persistence.user;
 
+import dash.meal.mealDashTestData.TestUtils;
 import dash.meal.mealdash.domain.message.ErrorMessage;
 import dash.meal.mealdash.domain.exception.OtpAdapterException;
 import dash.meal.mealdash.domain.model.Otp;
@@ -9,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -23,19 +23,22 @@ public class OtpAdapterTest {
 
     private Otp otp;
 
+    static String sharedEmail;
+
     @BeforeEach
     void setUp() {
+        sharedEmail = TestUtils.generateEmail(6);
         otp = Otp.builder()
                 .token("124345")
                 .createdAt(LocalDateTime.now())
-                .email("test@test.com")
+                .email(sharedEmail)
                 .build();
 
     }
 
     @AfterAll
     void tearDown() {
-        otpAdapter.delete(otp);
+        otpAdapter.deleteAll();
     }
 
     @Test
@@ -79,12 +82,14 @@ public class OtpAdapterTest {
 
     @Test
     void findOtpByEmail() throws OtpAdapterException {
-        String email = otp.getEmail();
-        otpAdapter.save(otp);
-        Optional<Otp> foundOtp = otpAdapter.findByEmail(email);
-        log.info("found otp ------> {}", foundOtp.get().getEmail());
+        Otp savedOtp = new Otp();
+        savedOtp.setEmail(sharedEmail);
+        savedOtp.setToken("123456");
+        otpAdapter.save(savedOtp);
+
+        Otp foundOtp = otpAdapter.findByEmail(savedOtp.getEmail());
         assertNotNull(foundOtp);
-        assertEquals(foundOtp.get().getToken(), otp.getToken());
+        assertEquals("123456", foundOtp.getToken());
     }
 
     @Test

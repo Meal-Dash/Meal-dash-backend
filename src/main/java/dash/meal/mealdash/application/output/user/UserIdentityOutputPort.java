@@ -14,8 +14,7 @@ public interface UserIdentityOutputPort {
     Optional<MealDashUser> getUserByEmail(String email) throws UserAdapterException;
     void deleteUser(MealDashUser user) throws MealDashException;
     MealDashUser enableUserAccount(MealDashUser user) throws MealDashException;
-    MealDashUser createPassword(MealDashUser user) throws MealDashException;
-    void setPassword(MealDashUser user) throws MealDashException;
+    void resetPassword(MealDashUser user) throws MealDashException;
     AccessTokenResponse login(MealDashUser user) throws MealDashException;
     UserRepresentation getUserRepresentation(MealDashUser user, boolean exactMatch) throws MealDashException;
 }

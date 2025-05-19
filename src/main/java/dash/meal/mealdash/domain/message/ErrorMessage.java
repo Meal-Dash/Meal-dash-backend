@@ -27,4 +27,7 @@ public class ErrorMessage {
     public static final String USER_DOES_NOT_EXIST = "User does not exist";
     public static final String USER_PREVIOUSLY_VERIFIED = "User previously verified";
     public static final String INVALID_EMAIL_OR_PASSWORD = "Invalid email or password";
+    public static final String INVALID_CODE = "Invalid code";
+    public static final String OTP_EXPIRED_OR_INVALID = "Otp expired or invalid";
+    public static final String EMAIL_ALREADY_EXIST = "Email already exists";
 }

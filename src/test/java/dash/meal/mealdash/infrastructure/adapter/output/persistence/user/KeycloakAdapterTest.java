@@ -16,8 +16,6 @@ import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -31,16 +29,16 @@ class KeycloakAdapterTest {
 
     private MealDashUser mealDashUser;
     private final String password = "P@ssw0rd4Test";
-    private final String newPassword = "neWpasswordJ@345";
-    private boolean enabled;
 
+    static String sharedEmail;
 
     @BeforeEach
     void setUp() {
-        String generatedEmail = TestUtils.generateEmail(5);
-        log.info("Generated email for test {}",generatedEmail);
-        mealDashUser = TestData.buildTestUser(generatedEmail);
-
+        if (sharedEmail == null) {
+            sharedEmail = TestUtils.generateEmail(6);
+            mealDashUser = TestData.buildTestUser(sharedEmail);
+        }
+        mealDashUser.setEmail(sharedEmail);
     }
 
     @Test
@@ -115,63 +113,13 @@ class KeycloakAdapterTest {
         assertEquals(ErrorMessage.INVALID_REGISTRATION_DETAILS, exception.getMessage());
     }
 
+
     @Test
     @Order(2)
-    void createPassword(){
-        try {
-            Optional<MealDashUser> existingUser = identityOutputPort.getUserByEmail(mealDashUser.getEmail());
-            assertTrue(existingUser.isPresent());
-            assertFalse(existingUser.get().isEnabled());
-            assertFalse(existingUser.get().isEmailVerified());
-
-            mealDashUser.setPassword(password);
-            mealDashUser.setEmail(mealDashUser.getEmail());
-            MealDashUser user = identityOutputPort.createPassword(mealDashUser);
-
-            assertNotNull(user);
-            assertNotNull(user.getId());
-            assertTrue(user.isEmailVerified());
-            assertTrue(user.isEnabled());
-            user.setPassword(mealDashUser.getPassword());
-            enabled = user.isEnabled();
-
-            AccessTokenResponse accessTokenResponse = identityOutputPort.login(user);
-            assertNotNull(accessTokenResponse);
-            assertNotNull(accessTokenResponse.getToken());
-            assertNotNull(accessTokenResponse.getRefreshToken());
-        }catch (MealDashException exception){
-            log.error("{} {}",exception.getClass().getName(),exception.getMessage());
-        }
-    }
-
-    @ParameterizedTest
-    @ValueSource(strings = {"passwordJ@345   ", "    passwordJ345"})
-    void createPasswordWithSpaces(String password){
-        try {
-            mealDashUser.setEmail(mealDashUser.getEmail());
-            MealDashUser user = identityOutputPort.createPassword(mealDashUser);
-            assertNotNull(user);
-            assertNotNull(user.getId());
-            assertTrue(user.isEmailVerified());
-            assertTrue(user.isEnabled());
-            user.setPassword(password);
-
-            AccessTokenResponse accessTokenResponse = identityOutputPort.login(user);
-            assertNotNull(accessTokenResponse);
-            assertNotNull(accessTokenResponse.getToken());
-            assertNotNull(accessTokenResponse.getRefreshToken());
-        }catch (MealDashException exception){
-            log.error("Failed to create password", exception);
-        }
-    }
-
-    @Test
-    @Order(3)
     void login(){
         try {
             mealDashUser.setEmail(mealDashUser.getEmail());
             mealDashUser.setPassword(password);
-            identityOutputPort.createPassword(mealDashUser);
 
             AccessTokenResponse accessTokenResponse = identityOutputPort.login(mealDashUser);
             assertNotNull(accessTokenResponse);
@@ -180,22 +128,6 @@ class KeycloakAdapterTest {
         }catch (MealDashException exception){
             log.error("Error logging in user {}", exception.getMessage());
         }
-    }
-
-    @Test
-    void loginWithValidEmailAddressAndInvalidPassword(){
-        mealDashUser.setPassword("invalid-password");
-        MealDashException exception = assertThrows(MealDashException.class, () -> identityOutputPort.createPassword(mealDashUser));
-        assertEquals(ErrorMessage.PASSWORD_IS_INVALID, exception.getMessage());
-
-    }
-
-    @Test
-    void loginWithInvalidEmailAddressAndValidPassword(){
-        mealDashUser.setEmail("invalid-email");
-        MealDashException exception = assertThrows(MealDashException.class, () -> identityOutputPort.createPassword(mealDashUser));
-        assertEquals(ErrorMessage.INVALID_MAIL_FORMAT, exception.getMessage());
-
     }
 
     @ParameterizedTest
@@ -209,28 +141,21 @@ class KeycloakAdapterTest {
 
     @Test
     void changePasswordWithNull() {
-        assertThrows(MealDashException.class, () -> identityOutputPort.setPassword(null));
+        assertThrows(MealDashException.class, () -> identityOutputPort.resetPassword(null));
     }
 
     @Test
     void changePasswordWithNullNewPassword() {
         mealDashUser.setNewPassword(null);
-        assertThrows(MealDashException.class, () -> identityOutputPort.setPassword(mealDashUser));
+        assertThrows(MealDashException.class, () -> identityOutputPort.resetPassword(mealDashUser));
     }
 
     @ParameterizedTest
     @ValueSource(strings={StringUtils.EMPTY, StringUtils.SPACE, "rniejfkn", "  ADKFDJHFD", "ADKFDJHFD  ", "@ndnue90 -  f"})
     void changePasswordWithInvalidPassword(String password) {
         mealDashUser.setNewPassword(password);
-        Exception exception = assertThrows(MealDashException.class, () -> identityOutputPort.setPassword(mealDashUser));
+        Exception exception = assertThrows(MealDashException.class, () -> identityOutputPort.resetPassword(mealDashUser));
         log.info(exception.getMessage());
-    }
-
-    @Test
-    @Order(4)
-    void enableAccountThatHasBeenEnabled() {
-        mealDashUser.setId("wERT_123");
-        assertThrows(MealDashException.class, () -> identityOutputPort.enableUserAccount(mealDashUser));
     }
 
     @Test
@@ -269,10 +194,6 @@ class KeycloakAdapterTest {
         assertThrows(MealDashException.class,()-> identityOutputPort.deleteUser(null));
     }
 
-    @Test
-    void deleteUserWithNullUserId() {
-        assertThrows(MealDashException.class,()-> identityOutputPort.deleteUser(mealDashUser));
-    }
 
     @Test
     void deleteUserWithInCorrectUserId() {

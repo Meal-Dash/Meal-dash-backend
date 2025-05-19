@@ -27,6 +27,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.util.StringUtils;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,6 +53,7 @@ public class KeycloakAdapter implements UserIdentityOutputPort {
         validateMealDashUserDetails(user);
         log.info("Done validating user details in keycloak adapter: {}", user);
         UserRepresentation userRepresentation = mapper.map(user);
+        createCredentialRepresentation(user.getPassword(), userRepresentation);
         log.info("Mapped user ------{}", userRepresentation.getEmail());
         try {
             UsersResource users = keycloak.realm(REALM).users();
@@ -64,6 +66,7 @@ public class KeycloakAdapter implements UserIdentityOutputPort {
             }
             UserRepresentation createdUserRepresentation = getUserRepresentation(user, Boolean.TRUE);
             user.setId(createdUserRepresentation.getId());
+            log.info("Creating user with role: {}", user.getRole());
 
             assignRole(user);
             log.info("User created on keycloak, role assigned : {}", createdUserRepresentation.getId());
@@ -77,6 +80,7 @@ public class KeycloakAdapter implements UserIdentityOutputPort {
     @Override
     public Optional<MealDashUser> getUserByEmail(String email) throws UserAdapterException {
         MealDashValidator.validateEmail(email);
+        log.info("I got here {}", email);
         List<UserRepresentation> foundUsers = getUserRepresentations(email);
         if (foundUsers.isEmpty()){
             log.warn("Could not find user with email {}", email);
@@ -131,37 +135,11 @@ public class KeycloakAdapter implements UserIdentityOutputPort {
     }
 
     @Override
-    public MealDashUser createPassword(MealDashUser user) throws MealDashException {
-        validateEmailAndPassword(user.getEmail(), user.getPassword());
-        String email = user.getEmail().trim();
-        String password = user.getPassword().trim();
-
-        MealDashUser foundMealDashUser = getUserByEmail(email).
-                orElseThrow(() -> new MealDashException(ErrorMessage.USER_NOT_FOUND));
-        foundMealDashUser.setNewPassword(password);
-        log.info("User ID for user creating password : {}", foundMealDashUser.getId());
-
-//        if (foundMealDashUser.isEmailVerified() && foundMealDashUser.isEnabled()){
-//            log.error("User already verified, can not create new password for this user {}", foundMealDashUser.getEmail());
-//            throw new MealDashException(ErrorMessage.USER_PREVIOUSLY_VERIFIED);
-//        }
-
-//        foundMealDashUser = enableUserAccount(foundMealDashUser);
-        setPassword(foundMealDashUser);
-        foundMealDashUser.setPassword(password);
-        foundMealDashUser.setEmail(email);
-
-//        AccessTokenResponse response = login(foundMealDashUser);
-//        foundMealDashUser.setAccessToken(response.getToken());
-//        foundMealDashUser.setRefreshToken(response.getRefreshToken());
-        return foundMealDashUser;
-    }
-
-    @Override
-    public void setPassword(MealDashUser user) throws MealDashException {
+    public void resetPassword(MealDashUser user) throws MealDashException {
         MealDashValidator.validateObjectInstance(user, ErrorMessage.USER_CANNOT_BE_NULL);
         MealDashValidator.validatePassword(user.getNewPassword());
         CredentialRepresentation credential = createCredentialRepresentation(user.getNewPassword());
+        log.info("User password ---- {}", credential.getValue());
         UserResource userResource = getUserResource(user);
         userResource.resetPassword(credential);
     }
@@ -215,22 +193,27 @@ public class KeycloakAdapter implements UserIdentityOutputPort {
                 .build();
     }
 
+    private void createCredentialRepresentation(String password, UserRepresentation userRepresentation) {
+        CredentialRepresentation credentialRepresentation = new CredentialRepresentation();
+        credentialRepresentation.setTemporary(Boolean.FALSE);
+        credentialRepresentation.setType(CredentialRepresentation.PASSWORD);
+        credentialRepresentation.setValue(password);
+        log.info("password created ---> {}", password);
+        userRepresentation.setCredentials(Collections.singletonList(credentialRepresentation));
+    }
+
     private CredentialRepresentation createCredentialRepresentation(String password) {
         CredentialRepresentation credentialRepresentation = new CredentialRepresentation();
         credentialRepresentation.setTemporary(Boolean.FALSE);
         credentialRepresentation.setType(CredentialRepresentation.PASSWORD);
         credentialRepresentation.setValue(password);
+        log.info("password created for user ---> {}", password);
         return credentialRepresentation;
     }
 
-    private void validateEmailAndPassword(String email, String password) throws UserAdapterException {
-        MealDashValidator.validateEmail(email);
-        MealDashValidator.validatePassword(password);
-    }
-
-
     private void assignRole(MealDashUser user) throws MealDashException {
         try {
+            log.info("Creating user with role in assign role method: {}", user.getRole());
             RoleRepresentation roleRepresentation = getRoleRepresentation(user);
             UserResource userResource = getUserResource(user);
             userResource.roles().realmLevel().add(List.of(roleRepresentation));

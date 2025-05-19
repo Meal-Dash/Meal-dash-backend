@@ -7,6 +7,8 @@ import java.util.Optional;
 
 public interface OtpOutputPort {
     Otp save(Otp otp) throws OtpAdapterException;
-    Optional<Otp> findByEmail(String email) throws OtpAdapterException;
+    Otp findByEmail(String email) throws OtpAdapterException;
     void delete(Otp otp);
+    void deleteAll();
+    Optional<Otp> findByEmailTokenIgnoreCase(String emailToken);
 }
