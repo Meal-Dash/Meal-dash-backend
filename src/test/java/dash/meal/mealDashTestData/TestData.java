@@ -1,7 +1,9 @@
 package dash.meal.mealDashTestData;
 
+import dash.meal.mealdash.domain.model.Location;
 import dash.meal.mealdash.domain.model.MealDashUser;
 import dash.meal.mealdash.domain.enums.UserRole;
+import dash.meal.mealdash.domain.model.Restaurant;
 
 public class TestData {
 
@@ -15,5 +17,21 @@ public class TestData {
                 .email(email)
                 .role(UserRole.CUSTOMER)
                 .build();
+    }
+    public static Restaurant buildTestRestaurant(){
+        return Restaurant.builder()
+                .name("mark Eatery")
+                .password("Password1@")
+                .currentLocation(buildTestLocation())
+                .password("JohnDoe123#")
+                .build();
+    }
+    public static Location buildTestLocation(){
+        return null;
+//        return Location.builder()
+//                .state("Lagos")
+//                .city("Lagos")
+//                .address("given address")
+//                .build();
     }
 }
